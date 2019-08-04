@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                            //delete comment
 
                             Log.d("TESTING1", photoURI.getClass().toString());
                             takePictureIntent.setData(photoURI);
