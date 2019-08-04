@@ -53,4 +53,5 @@
         app:layout_constraintEnd_toEndOf="@+id/cameraImageButton"
         app:layout_constraintStart_toStartOf="@+id/cameraImageButton"
         app:layout_constraintTop_toBottomOf="@+id/cameraImageButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
