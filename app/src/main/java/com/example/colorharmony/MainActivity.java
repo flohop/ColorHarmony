@@ -3,6 +3,7 @@ package com.example.colorharmony;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -32,7 +33,6 @@ import java.util.Date;
 import java.util.List;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
     ImageButton galleryImageButton;
     private static final int REQUEST_STORAGE = 123;
     private static final int REQUEST_IMAGE_CAPTURE = 1888;
-    public static final String IMAGE_URI_CODE = "IMAGE_URI";
-    public static final String IMAGE_NAME = "CAPTURED_IMAGE";
+    private static final int REQUEST_IMAGE_GALLERY = 1889;
+    private static final int RESULT_LOAD_IMAGE = 124;
+
 
     String pathToFile;
     private File tempProfileImageFile;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     requestPermissions(new String[]{Manifest.permission.CAMERA}
-                    ,REQUEST_STORAGE );
+                    ,REQUEST_IMAGE_CAPTURE );
                 }
             }
         });
@@ -84,10 +85,15 @@ public class MainActivity extends AppCompatActivity {
         galleryImageButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
-                //open the gallery and let the user pick an image for later use
+                if(hasPermission(READ_EXTERNAL_STORAGE)) {
+                    openGallery();
+                }
+                else{
+                    requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_IMAGE_GALLERY);
+                }
             }
         });
+
 
     }
 
@@ -99,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permission,
                                            int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permission, grantResults);
         if(hasPermission(Manifest.permission.CAMERA)) {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -106,17 +113,74 @@ public class MainActivity extends AppCompatActivity {
                 startCamera();
             }
         }
+
+        if(hasPermission(READ_EXTERNAL_STORAGE)) {
+
+            Log.d(LOG_TAG, "I have the permission");
+
+           openGallery();
+
+        }
     }
 
     @Override
     protected void onActivityResult(int request_code, int result_code, Intent data){
 
-        if((request_code ==REQUEST_IMAGE_CAPTURE) && result_code== RESULT_OK) {
+        Log.d(LOG_TAG, "Got a result from an intent");
 
-            saveProfilePicture(tempProfileImageFile);
+        if((request_code ==REQUEST_IMAGE_CAPTURE) && (result_code==RESULT_OK)) {
+
+            sendTemporaryFile(tempProfileImageFile);
+        }
+
+        else if((request_code == RESULT_LOAD_IMAGE) && (result_code==RESULT_OK)) {
+
+            Log.d(LOG_TAG, "Hello world, i got a positive result");
+
+            Log.d(LOG_TAG, data.getData().toString());
+            Uri selectedImage = data.getData();
+
+            Intent startPickerIntent = new Intent(this, ColorPickerActivity.class);
+            startPickerIntent.setData(selectedImage);
+            startActivity(startPickerIntent);
 
         }
+
+        if(result_code == RESULT_OK) {
+            Log.d(LOG_TAG, (Integer.toString(request_code)));
+        }
     }
+
+        @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options, menu);
+
+        return(super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.share:
+                //let the user share the app
+                return (true);
+
+            case R.id.support_me:
+                //let the use  buy me a coffee
+
+                //temporary:
+                startActivity(new Intent(this, FavoritesActivity.class));
+                return (true);
+
+            case R.id.settings:
+                //let the user alter the settings
+                return (true);
+        }
+
+        return (super.onOptionsItemSelected(item));
+
+    }
+
 
     // opening camera and setting image methods
     private void startCamera() {
@@ -151,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private  void saveProfilePicture(File tempFile) {
+    private  void sendTemporaryFile(File tempFile) {
 
         String filename = "my_profile_picture.jpg";
         final File imageFile = new File(getExternalFilesDir("images"), filename);
@@ -160,77 +224,28 @@ public class MainActivity extends AppCompatActivity {
             imageFile.delete();
         }
 
-        String tempPath = tempFile.getAbsolutePath();
-        try {
-            Bitmap bitmapOrg = createOriginalBitmap(tempPath);
+        Intent intent = new Intent(MainActivity.this, ColorPickerActivity.class);
+        intent.putExtra("temporary_file", tempFile);
 
-
-            FileOutputStream out = null;
-            try {
-                out = new FileOutputStream(imageFile);
-                bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            } catch (final Exception e) {
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-
-                        Intent intent = new Intent(MainActivity.this, ColorPickerActivity.class);
-                        intent.putExtra("image", filename);
-
-                        startActivity(intent);
-                    }
-                } catch (final IOException e) {
-                }
-            }
-        } catch (final Exception e) {
-            return;
-        }
+        startActivity(intent);
     }
 
+    private void openGallery(){
 
-        private Bitmap createOriginalBitmap(final String imagePath){
-            final Bitmap bitmapOrg;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                bitmapOrg = BitmapFactory.decodeFile(imagePath);
-            } else {
-                final BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = false;
-                options.inPreferredConfig = Bitmap.Config.RGB_565;
-                options.inDither = true;
-                bitmapOrg = BitmapFactory.decodeFile(imagePath, options);
-            }
-            return bitmapOrg;
+        Intent open_gallery_intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        if(open_gallery_intent.resolveActivity(getPackageManager()) != null) {
+
+
+            open_gallery_intent.setType("image/*");
+            startActivityForResult(open_gallery_intent, RESULT_LOAD_IMAGE);
+        }
+        else{
+            Log.d(LOG_TAG, "Oh no");
         }
 
-
-
-        @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options, menu);
-
-        return(super.onCreateOptionsMenu(menu));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.share:
-                //let the user share the app
-                return (true);
-
-            case R.id.support_me:
-                //let the use  buy me a coffee
-                return (true);
-
-            case R.id.settings:
-                //let the user alter the settings
-                return (true);
-        }
-
-        return (super.onOptionsItemSelected(item));
-
-    }
 
 
 }

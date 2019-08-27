@@ -8,4 +8,19 @@
     <string name="settings_description">Changed the settings of the app</string>
     <string name="support">Support me</string>
     <string name="support_description">Buy the developer a coffee</string>
+    <string name="rotate">Rotate image</string>
+    <string name="rotate_description">Rotate the image by 180 degree</string>
+    <string name="confirm_orientation">Confirm</string>
+    <string name="confirm_orientation_description">Confirm orientation of the image</string>
+    <string name="pick_color">Pick a color from the image</string>
+    <string name="info_button">Learn what the effect of the tactic is and when to use it</string>
+    <string name="confirm_color">Confirm the color harmony and see a preview</string>
+
+    <!-- Different tactics explanation !-->
+    <string name="complementary_info">This is what complementary is used for</string>
+    <string name="monochrome_info">This is what monochrome is used for</string>
+    <string name="analogous_info">This is what analogous is used for</string>
+    <string name="split_complementary_info">This is what split complementary is used for</string>
+    <string name="triadic_info">This is what triadic is used for</string>
+    <string name="tetradic_info">This is what tetradic is used for</string>
 </resources>
