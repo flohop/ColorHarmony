@@ -1,26 +1,18 @@
 package com.example.colorharmony;
 
-
-import android.graphics.Color;
-
 import android.util.Log;
 
 import com.example.colorharmony.color.ColorList;
 import com.example.colorharmony.color.TColor;
 import com.example.colorharmony.theory.AnalogousStrategy;
-import com.example.colorharmony.theory.ComplementaryStrategy;
 import com.example.colorharmony.theory.MonochromeTheoryStrategy;
 import com.example.colorharmony.theory.SingleComplementStrategy;
 import com.example.colorharmony.theory.SplitComplementaryStrategy;
 import com.example.colorharmony.theory.TetradTheoryStrategy;
 import com.example.colorharmony.theory.TriadTheoryStrategy;
 
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
-
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class CalculateHarmonyCalculator {
 
@@ -33,6 +25,12 @@ public class CalculateHarmonyCalculator {
         Log.d("TColor from RGB to HEX", newTColor.toHex());
 
         return newTColor;
+    }
+
+    public String getHexValue(TColor myTColor){
+        String hex = myTColor.toHex();
+
+        return hex;
     }
 
 

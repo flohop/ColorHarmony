@@ -15,6 +15,8 @@
     <string name="pick_color">Pick a color from the image</string>
     <string name="info_button">Learn what the effect of the tactic is and when to use it</string>
     <string name="confirm_color">Confirm the color harmony and see a preview</string>
+    <string name="save_palette_enter_name">Enter name</string>
+    <string name="save_palette_enter_description">Enter description</string>
 
     <!-- Different tactics explanation !-->
     <string name="complementary_info">This is what complementary is used for</string>

@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,8 +59,10 @@ public class ColorPickerActivity  extends Activity {
     public TextView colorText;
     public Spinner harmonyPicker;
     public ImageButton tacticInfo;
+    public ImageView savePalete;
 
     private ArrayList<TacticItem> mTacticList;
+    private ArrayList<String> hexArray;
     private TacticAdapter mAdapter;
 
     public boolean touched;
@@ -68,6 +71,7 @@ public class ColorPickerActivity  extends Activity {
     public TacticItem currentTacticItem;
 
     public String currentTactic;
+    public String currentHexColor;
 
     public TColor myTColor;
     public ArrayList<String> returnedHex;
@@ -99,6 +103,7 @@ public class ColorPickerActivity  extends Activity {
         colorText = (TextView) findViewById(R.id.colorText);
         harmonyPicker = (Spinner) findViewById(R.id.harmonyPicker);
         tacticInfo = (ImageButton) findViewById(R.id.tacticInfo);
+        savePalete = (ImageView) findViewById(R.id.savePalette);
 
         initList();
 
@@ -123,6 +128,14 @@ public class ColorPickerActivity  extends Activity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Toast.makeText(ColorPickerActivity.this,"nothing clicked",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        savePalete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSaveDialog(hexArray);
+
             }
         });
 
@@ -236,6 +249,8 @@ public class ColorPickerActivity  extends Activity {
 
     }
 
+
+
     private  Bitmap saveProfilePicture(File tempFile) {
 
         String filename = "my_profile_picture.jpg";
@@ -336,7 +351,7 @@ public class ColorPickerActivity  extends Activity {
 
     public void setHarmonicColors(TColor myTColor){
 
-        ArrayList<String> hexArray = new ArrayList<>();
+        hexArray = new ArrayList<>();
 
         // get the harmony colors based on the selected System
 
@@ -472,6 +487,90 @@ public class ColorPickerActivity  extends Activity {
             //colorView5.setBackgroundColor(Color.parseColor("#" + hexArray.get(3)));
         }
 
+    }
+
+    private void openSaveDialog(final ArrayList<String> colorValues) {
+
+
+
+        AlertDialog saveAlertDialog = new AlertDialog.Builder(this).create();
+
+        LayoutInflater factory = LayoutInflater.from(ColorPickerActivity.this);
+        View saveView = factory.inflate(R.layout.save_palete_dialog, null);
+
+        final EditText header1 = saveView.findViewById(R.id.favorite_name_enter);
+        final EditText description = saveView.findViewById(R.id.favorite_content_enter);
+
+        saveAlertDialog.setView(saveView);
+        new Dialog(getApplicationContext());
+
+        //set button
+        saveAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //performed when action is positive
+                String myHeader = header1.getText().toString();
+                String myContent = description.getText().toString();
+                String myTactic = currentTactic;
+                currentHexColor = myTColor.toHex();
+
+                String hex1;
+                String hex2;
+                String hex3;
+                String hex4;
+
+                switch(myTactic){
+                    case "Complementary" :
+                        hex1 = currentHexColor;
+                        hex2 = hexArray.get(0);
+                        SQLiteHelper.getInstance(ColorPickerActivity.this)
+                                .updateFavorites(myHeader, myContent, myTactic, hex1,hex2);
+                        break;
+                    case "Analogous":
+                    case "Split Complementary":
+                    case "Triadic":
+                        hex1 = currentHexColor;
+                        try {
+                            hex2 = hexArray.get(0);
+                            hex3 = hexArray.get(1);
+                            SQLiteHelper.getInstance(ColorPickerActivity.this)
+                                    .updateFavorites(myHeader, myContent, myTactic, hex1,hex2, hex3);
+                        }
+                        catch (IndexOutOfBoundsException e){
+                            Log.d("Why", "are you here");
+                        }
+                    break;
+                    case "Monochromatic":
+                    case "Tetradic":
+                        //original color
+                        hex1 = currentHexColor;
+                        hex2 = hexArray.get(0);
+                        try {
+                            hex3 = hexArray.get(1);
+                            hex4 = hexArray.get(2);
+                            Log.d("My Tetradic VALUES", myHeader + "|" + myContent + "|" + myTactic + "|" + hex1 + "|" + hex2 + "|" + hex3 + "|" + hex4);
+                            SQLiteHelper.getInstance(ColorPickerActivity.this)
+                                    .updateFavorites(myHeader, myContent, myTactic, hex1, hex2, hex3, hex4);
+                        }
+                        catch(IndexOutOfBoundsException e){
+                            Log.d("Why", "are you here 2");
+                        }
+                        break;
+                }
+
+                Toast.makeText(ColorPickerActivity.this, "Saved", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        saveAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(ColorPickerActivity.this, "Canceled", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        saveAlertDialog.show();
     }
 
     private void openDialog() {

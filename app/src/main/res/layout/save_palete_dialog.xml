@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/favorite_name_enter"
+        android:autoSizeMinTextSize="12dp"
+        android:autoSizeTextType="uniform"
+        android:textStyle="bold"
+        android:backgroundTint="@color/MidnightBlue"
+        android:textAlignment="center"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:maxLength="16"
+        android:hint="@string/save_palette_enter_name"/>
+
+    <EditText
+        android:id="@+id/favorite_content_enter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:maxLength="200"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="200dp"
+        android:textSize="18sp"
+        android:hint="@string/save_palette_enter_description"
+        android:backgroundTint="@color/MidnightBlue"
+        />
+</LinearLayout>
