@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,33 +60,33 @@ public class FavoriteColorsFragment extends Fragment {
     private SQLiteDatabase myDatabase;
     private final Object syncLock = new Object();
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.from(container.getContext()).inflate(R.layout.favorite_colors_fragment, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         myDatabase = SQLiteHelper.getInstance(getActivity()).getWritableDatabase();
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT |ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+        .detectLeakedSqlLiteObjects()
+        .detectLeakedClosableObjects()
+        .penaltyLog()
+        .penaltyDeath()
+        .build());
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                removeItem((int) viewHolder.itemView.getTag());
-            }
-        }).attachToRecyclerView(recyclerView);
-
-        //test maybe delete later
-
-        //enableSwipe();
+        enableSwipe();
         return rootView;
+
+        //TODO: Pressing undo, gives back the wrong color, find out why and fix it!
     }
 
-    //TODO: change that the cursor is loaded into an Array and then the array is used for the Recycler, so
-    //TODO: there are only 2 big SQL Operations, one opening(loading all items into array) and one closing
-    //TODO: (remove all the items from the table that were removed
+
 
     @Override
     public void onStart() {
@@ -100,6 +101,10 @@ public class FavoriteColorsFragment extends Fragment {
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
+        Log.d("STOPPED", " Fragment got stopped");
+        if(current != null) {
+            current.close();
+        }
         super.onStop();
     }
 
@@ -120,26 +125,8 @@ public class FavoriteColorsFragment extends Fragment {
                 if (direction == ItemTouchHelper.LEFT) {
                     final int deletedPosition = position;
 
-                    removeItem((int) viewHolder.itemView.getTag());
+                    removeItem(position,(int) viewHolder.itemView.getTag());
 
-                    // showing snack bar with Undo option
-                    //Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
-                   /* Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.LinearLayout1), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
-                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackbar.getView().getLayoutParams();
-                    params.setMargins(0, 0, 0, new MyContextWrapper(getActivity()).getStatusBarHeight());
-                    snackbar.getView().setLayoutParams(params);
-                    snackbar.setAction("UNDO", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // undo is selected, restore the deleted item
-                            adapter.restoreItem(position,loadedFavColors.get(position));
-                        }
-                    });
-                    snackbar.setActionTextColor(Color.YELLOW);
-                    snackbar.show();*/
-                } else {
-                    final int deletedPosition = position;
-                    adapter.removeItem(position, loadedFavColors.get(position).getId());
                     // showing snack bar with Undo option
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.LinearLayout1), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackbar.getView().getLayoutParams();
@@ -148,10 +135,71 @@ public class FavoriteColorsFragment extends Fragment {
                     snackbar.setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
                             // undo is selected, restore the deleted item
-                            adapter.restoreItem(position, loadedFavColors.get(position));
+                            Log.d("Size measure:", "Array size: " + loadedFavColors.size() + "| Position:" + position);
+
+                            switch(loadedFavColors.get(position).getHarmonyType()){
+                                case "Complementary":
+                                    SQLiteHelper.getInstance(getActivity())
+                                            .updateFavorites(loadedFavColors.get(position-1).getTitle(), loadedFavColors.get(position-1).getDescription(),
+                                                    loadedFavColors.get(position-1).getHarmonyType(), loadedFavColors.get(position-1).getHex1(),
+                                                    loadedFavColors.get(position-1).getHex2());
+                                    break;
+                                case "Analogous":
+                                case "Split Complementary":
+                                case "Triadic":
+                                    SQLiteHelper.getInstance(getActivity())
+                                            .updateFavorites(loadedFavColors.get(position-1).getTitle(), loadedFavColors.get(position-1).getDescription(),
+                                                    loadedFavColors.get(position-1).getHarmonyType(), loadedFavColors.get(position-1).getHex1(),
+                                                    loadedFavColors.get(position-1).getHex2(), loadedFavColors.get(position-1).getHex3());
+                                    break;
+                                case "Monochromatic":
+                                case "Tetradic":
+                                    SQLiteHelper.getInstance(getActivity())
+                                            .updateFavorites(loadedFavColors.get(position-1).getTitle(), loadedFavColors.get(position-1).getDescription(),
+                                                    loadedFavColors.get(position-1).getHarmonyType(), loadedFavColors.get(position-1).getHex1(),
+                                                    loadedFavColors.get(position-1).getHex2(), loadedFavColors.get(position-1).getHex3(), loadedFavColors.get(position-1).getHex4());
+                            }
+
                         }
+                    });
+                    snackbar.setActionTextColor(Color.YELLOW);
+                    snackbar.show();
+                } else {
+                    removeItem(position,(int) viewHolder.itemView.getTag());
+
+                    // showing snack bar with Undo option
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.LinearLayout1), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
+                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackbar.getView().getLayoutParams();
+                    params.setMargins(0, 0, 0, new MyContextWrapper(getActivity()).getStatusBarHeight());
+                    snackbar.getView().setLayoutParams(params);
+                    snackbar.setAction("UNDO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.d("Size measure:", "Array size: " + loadedFavColors.size() + "| Position:" + position);
+                            // undo is selected, restore the deleted item
+                            switch(loadedFavColors.get(position-1).getHarmonyType()){
+                                case "Complementary":
+                                    SQLiteHelper.getInstance(getActivity())
+                                            .updateFavorites(loadedFavColors.get(position-1).getTitle(), loadedFavColors.get(position-1).getDescription(),
+                                                    loadedFavColors.get(position-1).getHarmonyType(), loadedFavColors.get(position-1).getHex1(),
+                                                    loadedFavColors.get(position-1).getHex2());
+                                    break;
+                                case "Analogous":
+                                case "Split Complementary":
+                                case "Triadic":
+                                    SQLiteHelper.getInstance(getActivity())
+                                            .updateFavorites(loadedFavColors.get(position-1).getTitle(), loadedFavColors.get(position-1).getDescription(),
+                                                    loadedFavColors.get(position-1).getHarmonyType(), loadedFavColors.get(position-1).getHex1(),
+                                                    loadedFavColors.get(position-1).getHex2(), loadedFavColors.get(position-1).getHex3());
+                                    break;
+                                case "Monochromatic":
+                                case "Tetradic":
+                                    SQLiteHelper.getInstance(getActivity())
+                                            .updateFavorites(loadedFavColors.get(position-1).getTitle(), loadedFavColors.get(position-1).getDescription(),
+                                                    loadedFavColors.get(position-1).getHarmonyType(), loadedFavColors.get(position-1).getHex1(),
+                                                    loadedFavColors.get(position-1).getHex2(), loadedFavColors.get(position-1).getHex3(), loadedFavColors.get(position-1).getHex4());
+                            }       }
                     });
                     snackbar.setActionTextColor(Color.YELLOW);
 
@@ -193,14 +241,15 @@ public class FavoriteColorsFragment extends Fragment {
     }
 
     @SuppressWarnings("unused")
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDataUpdated(UpdatedEvent event){
         Log.d("CURSOR", " got updated!!!");
         adapter.swapCursor(event.getUpdatedCursor());
 
-
+        notifier();
 
     }
+
 
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -259,10 +308,9 @@ public class FavoriteColorsFragment extends Fragment {
             }
     }
 
-    private void removeItem(int id){
-        SQLiteHelper.getInstance(getContext()).removeFavorite(id);
-        adapter.swapCursor(getAllItems());
-        notifier();
+    private void removeItem(int position, int id){
+        adapter.removeItem(position, id);
+
     }
 
     synchronized void notifier() {
@@ -288,15 +336,19 @@ public class FavoriteColorsFragment extends Fragment {
     }
 
     private Cursor getAllItems() {
-        return myDatabase.query(
+
+        Cursor newCursor = myDatabase.query(
                 SQLiteHelper.TABLE,
                 null,
                 null,
                 null,
                 null,
                 null,
-                "_id" + " DESC"
-        );
+                "_id" + " DESC");
+
+        return newCursor;
+
     }
+
 }
 

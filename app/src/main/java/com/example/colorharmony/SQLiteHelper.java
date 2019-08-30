@@ -18,6 +18,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "color_table.db";
     private static final int SCHEMA_VERSION = 1;
+    static final String ID = "_id";
     static final String TITLE = "name";
     static final String DESCRIPTION ="description";
     static final String HARMONY_TYPE = "type"; // Complementary, Monochromatic, Analogous,
@@ -109,7 +110,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             if(!database.isOpen()){
                 Log.d("BACKGROUND",  "Db is classed");
             }
-            c = database.rawQuery("SELECT  rowid _id, name, type, hex1, hex2, hex3, hex4 FROM saved_colors", null);
+            c = database.rawQuery("SELECT* FROM saved_colors", null);
             Log.d("BACKGROUND", "Got readable database cursor");
             if(c.getCount() > 0) {
                 EventBus.getDefault().post(new FavoritesLoadedEvent(c));
@@ -120,7 +121,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
         public Cursor getEmptyCursor() {
             SQLiteDatabase database = getReadableDatabase();
-            c = database.rawQuery("SELECT rowid _id, name, type, hex1, hex2, hex3, hex4 FROM saved_Colors", null);
+            c = database.rawQuery("SELECT* FROM saved_Colors", null);
             return c;
         }
 
@@ -183,6 +184,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     this.hex1, this.hex2, this.hex3, this.hex4, String.valueOf(this.favorite)};
             getWritableDatabase().execSQL("INSERT INTO saved_colors (name, description, type," +
                     " hex1, hex2, hex3, hex4, favorite) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", args);
+
+            Cursor updatedCursor = getReadableDatabase().rawQuery("SELECT* FROM saved_colors", null);
+
+            updatedCursor.moveToLast();
+            ArrayList<FavoriteColor> newFavColors = new ArrayList<>();
+            while(updatedCursor.moveToPrevious()) {
+                String title = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.TITLE));
+                String description = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.DESCRIPTION));
+                String type = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.HARMONY_TYPE));
+                String hex1 = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_1));
+                String hex2 = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_2));
+                String hex3 = updatedCursor.getColumnName(updatedCursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_3));
+                String hex4 = updatedCursor.getColumnName(updatedCursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_4));
+
+                FavoriteColor tempColor = FavoriteColor.createFavoriteColorInstance(title, description, type, hex1, hex2, hex3, hex4);
+
+                newFavColors.add(tempColor);
+                EventBus.getDefault().post(new UpdatedEvent(updatedCursor));
+            }
         }
 
     }
@@ -195,10 +215,26 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         @Override
         public void run() {
+            //finished
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             getWritableDatabase().delete("saved_colors", "_id" + "=" + this.id, null);
             Log.d("DELETING ITEM", "Item with id: " + this.id + " got deleted");
-            Cursor updatedCursor = getReadableDatabase().rawQuery("SELECT  rowid _id, name, type, hex1, hex2, hex3, hex4 FROM saved_colors", null);
+            Cursor updatedCursor = getReadableDatabase().rawQuery("SELECT* FROM saved_colors", null);
+           /* updatedCursor.moveToFirst();
+            ArrayList<FavoriteColor> newFavColors = new ArrayList<>();
+            while(updatedCursor.moveToNext()) {
+                String title = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.TITLE));
+                String description = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.DESCRIPTION));
+                String type = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.HARMONY_TYPE));
+                String hex1 = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_1));
+                String hex2 = updatedCursor.getString(updatedCursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_2));
+                String hex3 = updatedCursor.getColumnName(updatedCursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_3));
+                String hex4 = updatedCursor.getColumnName(updatedCursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_4));
+
+                FavoriteColor tempColor = FavoriteColor.createFavoriteColorInstance(title, description, type, hex1, hex2, hex3, hex4);
+
+                newFavColors.add(tempColor);
+            }*/
 
             EventBus.getDefault().post(new UpdatedEvent(updatedCursor));
 

@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 return (true);
 
             case R.id.settings:
-                //let the user alter the settings
+                startActivity(new Intent(this, EditPreferences.class));
                 return (true);
         }
 

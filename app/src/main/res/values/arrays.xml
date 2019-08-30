@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="color_formats">
+        <item>Hex(for web)</item>
+        <item>RGB(for web)</item>
+        <item>HSV(for web)</item>
+        <item>CMYK(for print)</item>
+
+    </string-array>
+
+    <string-array name="color_values">
+        <item>Hex</item>
+        <item>RGB</item>
+        <item>HSV</item>
+        <item>CMYK</item>
+    </string-array>
+
+</resources>

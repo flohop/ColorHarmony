@@ -198,6 +198,32 @@ public class FavoriteColor {
     public int getFavorite() {
         return mfavorite;
     }
+
+    public static FavoriteColor createFavoriteColorInstance(String name, String mdescription, String type, String hHex1,
+                                                            String hHex2, String hHex3, String hHex4){
+        FavoriteColor myFavColor;
+        switch (type){
+            case "Complementary":
+                myFavColor = new FavoriteColor(name, type, 0, hHex1, hHex2);
+                break;
+
+            case "Analogous":
+            case "Split Complementary":
+            case "Triadic":
+                myFavColor = new FavoriteColor(name, type, 0, hHex1, hHex2, hHex3);
+                break;
+            case "Monochromatic":
+            case "Tetradic":
+                myFavColor = new FavoriteColor(name, type, 0, hHex1, hHex2, hHex3, hHex4);
+                break;
+             default:
+                myFavColor = null;
+        }
+
+        return myFavColor;
+
+    }
+
 }
 
 

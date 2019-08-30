@@ -26,6 +26,7 @@
 
         <activity android:name=".ColorPickerActivity"></activity>
         <activity android:name=".FavoritesActivity"></activity>
+        <activity android:name=".EditPreferences"></activity>
 
 
         <provider

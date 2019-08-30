@@ -25,4 +25,12 @@
     <string name="split_complementary_info">This is what split complementary is used for</string>
     <string name="triadic_info">This is what triadic is used for</string>
     <string name="tetradic_info">This is what tetradic is used for</string>
+
+
+    <!-- Shared preferences Text !-->
+    <string name="show_color_text_value">Show color value</string>
+    <string name="show_color_text_value_summary">Check, if you want to see the Text Value of the colors</string>
+    <string name="choose_color_text_type">Pick color text type</string>
+    <string name="choose_color_text_type_summary">Pick the format you want the color text displayed in</string>
+    <string name="choose_color_text_type_title">Pick color format</string>
 </resources>

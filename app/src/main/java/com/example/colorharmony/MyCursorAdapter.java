@@ -65,7 +65,7 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
         Log.d("onBindViewHolder",  "got called");
         //get the values from the cursor
         String title = cursor.getString(cursor.getColumnIndex(SQLiteHelper.TITLE));
-        int id = cursor.getInt(0);
+        int id = (int)cursor.getLong(cursor.getColumnIndex(SQLiteHelper.ID));
         String type = cursor.getString(cursor.getColumnIndex(SQLiteHelper.HARMONY_TYPE));
         String hex1 = cursor.getString(cursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_1));
         String hex2 = cursor.getString(cursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_2));
@@ -123,16 +123,17 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
         SQLiteHelper.getInstance(context).removeFavorite(id);
 
         notifyItemRemoved(position);
-        notifyItemChanged(position, numberOfElements);
+
 
     }
-    public void restoreItem(int position, FavoriteColor restoredColor){
+    public void restoreItem(int position, FavoriteColor restoredColor, int size){
 
         switch(restoredColor.mharmonyType){
             case "Complementary":
                 SQLiteHelper.getInstance(context).updateFavorites(restoredColor.getTitle(),
                         restoredColor.getDescription(), restoredColor.getHarmonyType(),
                         restoredColor.getHex1(), restoredColor.getHex2());
+                break;
             case "Analogous":
             case "Split Complementary":
             case "Triadic":
@@ -140,13 +141,14 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
                         restoredColor.getDescription(), restoredColor.getHarmonyType(),
                         restoredColor.getHex1(),
                         restoredColor.getHex2(), restoredColor.getHex3());
-
+                break;
             case "Monochromatic":
             case "Tetradic":
                 SQLiteHelper.getInstance(context).updateFavorites(restoredColor.getTitle(),
                         restoredColor.getDescription(), restoredColor.getHarmonyType(),
                         restoredColor.getHex1(), restoredColor.getHex2(),
                         restoredColor.getHex3(), restoredColor.getHex4());
+                break;
 
 
 

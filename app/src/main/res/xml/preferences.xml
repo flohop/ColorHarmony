@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="checkbox"
+        android:summary="@string/show_color_text_value_summary"
+        android:title="@string/show_color_text_value"/>
+
+    <ListPreference
+        android:key="list"
+        android:dialogTitle="@string/choose_color_text_type_title"
+        android:entries="@array/color_formats"
+        android:title="@string/choose_color_text_type_title"
+        android:summary="@string/choose_color_text_type"
+        android:entryValues="@array/color_values"/>
+
+</PreferenceScreen>

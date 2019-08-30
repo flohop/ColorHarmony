@@ -3,7 +3,9 @@ package com.example.colorharmony;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,6 +17,8 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Process;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -44,6 +48,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class ColorPickerActivity  extends Activity {
@@ -61,12 +66,20 @@ public class ColorPickerActivity  extends Activity {
     public ImageButton tacticInfo;
     public ImageView savePalete;
 
+
+    public TextView colorTextView1;
+    public TextView colorTextView2;
+    public TextView colorTextView3;
+    public TextView colorTextView4;
+
     private ArrayList<TacticItem> mTacticList;
     private ArrayList<String> hexArray;
     private TacticAdapter mAdapter;
 
     public boolean touched;
     public boolean rotationConfirmed;
+    public boolean showText = false;
+    public String currentColorTextFormat;
 
     public TacticItem currentTacticItem;
 
@@ -83,6 +96,13 @@ public class ColorPickerActivity  extends Activity {
     int averageColor;
     float[] hsv;
 
+
+
+    //prefs
+    private static final String PREF_SHOW_FORMATING ="checkbox";
+    private static final String PREF_CHOOSE_FORMATNG ="list";
+
+
     public final String LOG_TAG = ColorPickerActivity.class.getSimpleName();
 
 
@@ -91,6 +111,15 @@ public class ColorPickerActivity  extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.color_picker);
+
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        showText = prefs.getBoolean(PREF_SHOW_FORMATING, true);
+        currentColorTextFormat = prefs.getString(PREF_CHOOSE_FORMATNG, "Hex");
+
+        Log.d(LOG_TAG, " List preference:" + currentColorTextFormat);
+
 
         imageView = (ImageView) findViewById(R.id.imageView2);
         confirmColorButton = (ImageButton) findViewById(R.id.confirmColorButton);
@@ -104,6 +133,10 @@ public class ColorPickerActivity  extends Activity {
         harmonyPicker = (Spinner) findViewById(R.id.harmonyPicker);
         tacticInfo = (ImageButton) findViewById(R.id.tacticInfo);
         savePalete = (ImageView) findViewById(R.id.savePalette);
+        colorTextView1 = (TextView) findViewById(R.id.colorViewText);
+        colorTextView2 = (TextView) findViewById(R.id.colorViewText2);
+        colorTextView3 = (TextView) findViewById(R.id.colorViewText3);
+        colorTextView4 = (TextView) findViewById(R.id.colorViewText4);
 
         initList();
 
@@ -196,6 +229,11 @@ public class ColorPickerActivity  extends Activity {
                         colorView.setVisibility(View.VISIBLE);
                         colorView2.setVisibility(View.VISIBLE);
                         colorText.setVisibility(View.INVISIBLE);
+
+                        if(showText){
+                            colorTextView1.setVisibility(View.VISIBLE);
+                            colorTextView2.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     try {
@@ -224,11 +262,12 @@ public class ColorPickerActivity  extends Activity {
                     //set to returned harmonic color
                     Log.d(LOG_TAG, "Created new TColor on new values: " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
                     myTColor = CalculateHarmonyCalculator.TColorFromRGB((float)r, (float)g, (float)b);
+                    currentHexColor = myTColor.toHex();
 
                     colorView.setBackgroundColor(Color.rgb(myTColor.red(),myTColor.green(), myTColor.blue()));
 
-
                     setHarmonicColors(myTColor);
+                    setHarmonyText();
 
 
                     Log.d(LOG_TAG, "NO EXCEPTION OCCURED");
@@ -248,8 +287,6 @@ public class ColorPickerActivity  extends Activity {
         });
 
     }
-
-
 
     private  Bitmap saveProfilePicture(File tempFile) {
 
@@ -365,10 +402,13 @@ public class ColorPickerActivity  extends Activity {
             colorView3.setVisibility(View.INVISIBLE);
             colorView4.setVisibility(View.INVISIBLE);
             colorView5.setVisibility(View.INVISIBLE);
-            //colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
-            //colorView4.setBackgroundColor(Color.parseColor("#" + hexArray.get(2)));
-            //colorView5.setBackgroundColor(Color.parseColor("#" + hexArray.get(3)));
-        }
+
+            colorTextView3.setVisibility(View.INVISIBLE);
+            colorTextView4.setVisibility(View.INVISIBLE);
+            }
+
+
+
         else if (currentTactic == "Monochromatic"){
             hexArray = CalculateHarmonyCalculator.calculateMonochromeStrategy(myTColor);
             if(colorView2.getVisibility() == View.VISIBLE) {
@@ -378,7 +418,11 @@ public class ColorPickerActivity  extends Activity {
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
             }
             else {
+
                 colorView3.setVisibility(View.VISIBLE);
+                if(showText) {
+                    colorTextView3.setVisibility(View.VISIBLE);
+                }
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
             }
             if(colorView4.getVisibility() == View.VISIBLE){
@@ -386,15 +430,12 @@ public class ColorPickerActivity  extends Activity {
             }
             else{
                 colorView4.setVisibility(View.VISIBLE);
+                if(showText) {
+                    colorTextView4.setVisibility(View.VISIBLE);
+                }
                 colorView4.setBackgroundColor(Color.parseColor("#" + hexArray.get(2)));
             }
-         /*   if(colorView5.getVisibility() == View.VISIBLE){
-                colorView5.setBackgroundColor(Color.parseColor("#" + hexArray.get(3)));
-            }
-            else{
-                colorView5.setVisibility(View.VISIBLE);
-                colorView5.setBackgroundColor(Color.parseColor("#" + hexArray.get(3)));
-            }*/
+
         }
         else if (currentTactic == "Analogous"){
             hexArray = CalculateHarmonyCalculator.calculateAnalogous(myTColor);
@@ -402,13 +443,16 @@ public class ColorPickerActivity  extends Activity {
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
             }
             if(colorView3.getVisibility() == View.INVISIBLE) {
+                if(showText) {
+                    colorTextView3.setVisibility(View.VISIBLE);
+                }
                 colorView3.setVisibility(View.VISIBLE);
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(3)));
             }
             else if(colorView3.getVisibility() == View.VISIBLE){
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(3)));
             }
-
+            colorTextView4.setVisibility(View.INVISIBLE);
             colorView4.setVisibility(View.INVISIBLE);
             colorView5.setVisibility(View.INVISIBLE);
 
@@ -419,6 +463,9 @@ public class ColorPickerActivity  extends Activity {
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
             }
             else{
+                if(showText) {
+                    colorTextView3.setVisibility(View.VISIBLE);
+                }
                 colorView.setVisibility(View.VISIBLE);
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
 
@@ -431,6 +478,7 @@ public class ColorPickerActivity  extends Activity {
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
             }
 
+            colorTextView4.setVisibility(View.INVISIBLE);
             colorView4.setVisibility(View.INVISIBLE);
             colorView5.setVisibility(View.INVISIBLE);
             //colorView4.setBackgroundColor(Color.parseColor("#" + hexArray.get(2)));
@@ -450,14 +498,17 @@ public class ColorPickerActivity  extends Activity {
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
             }
             else{
+                if(showText) {
+                    colorTextView3.setVisibility(View.VISIBLE);
+                }
                 colorView3.setVisibility(View.VISIBLE);
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
             }
 
             colorView4.setVisibility(View.INVISIBLE);
+            colorTextView4.setVisibility(View.INVISIBLE);
             colorView5.setVisibility(View.INVISIBLE);
-            //colorView4.setBackgroundColor(Color.parseColor("#" + hexArray.get(2)));
-            //colorView5.setBackgroundColor(Color.parseColor("#" + hexArray.get(3)));
+
         }
         else if (currentTactic == "Tetradic"){
             hexArray = CalculateHarmonyCalculator.calculateTetraTheory(myTColor);
@@ -472,14 +523,21 @@ public class ColorPickerActivity  extends Activity {
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
             }
             else{
+                if(showText) {
+                    colorTextView3.setVisibility(View.VISIBLE);
+                }
                 colorView3.setVisibility(View.VISIBLE);
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
+                colorTextView3.setVisibility(View.VISIBLE);
             }
             if(colorView4.getVisibility() == View.VISIBLE) {
                 colorView4.setBackgroundColor(Color.parseColor("#" + hexArray.get(2)));
             }
             else{
                 colorView4.setVisibility(View.VISIBLE);
+                if(showText) {
+                    colorTextView4.setVisibility(View.VISIBLE);
+                }
                 colorView4.setBackgroundColor(Color.parseColor("#" + hexArray.get(2)));
             }
 
@@ -487,6 +545,68 @@ public class ColorPickerActivity  extends Activity {
             //colorView5.setBackgroundColor(Color.parseColor("#" + hexArray.get(3)));
         }
 
+    }
+
+    public void setHarmonyText(){
+
+         if(showText){
+             if(hexArray != null){
+                 switch (currentTactic){
+                     case "Complementary":
+                         colorTextView1.setText("#" + currentHexColor);
+                         colorTextView2.setText("#" + hexArray.get(0));
+                         break;
+
+                     case "Split Complementary":
+                     case "Triadic":
+                     case "Analogous":
+                         colorTextView1.setText("#" + currentHexColor);
+                         colorTextView2.setText("#" + hexArray.get(0));
+                         colorTextView3.setText("#" + hexArray.get(1));
+                         break;
+
+                     case "Monochromatic":
+                     case "Tetradic":
+                         colorTextView1.setText("#" + currentHexColor);
+                         colorTextView2.setText("#" + hexArray.get(0));
+                         colorTextView3.setText("#" + hexArray.get(1));
+                         colorTextView4.setText("#" + hexArray.get(2));
+                         break;
+
+                 }
+             }
+         }
+    }
+
+    private String getCorrectColorFormat(String orginalHex){
+
+        switch(currentColorTextFormat){
+            case "Hex":
+                return orginalHex;
+            case "RGB":
+                return
+        }
+    }
+
+    public static String HexToColor(String hex)
+    {
+        hex = hex.replace("#", "");
+        Color myRGBColor;
+        switch (hex.length()) {
+            case 6:
+                myRGBColor = new Color((
+                        Integer.valueOf(hex.substring(0, 2), 16),
+                        Integer.valueOf(hex.substring(2, 4), 16),
+                        Integer.valueOf(hex.substring(4, 6), 16));
+            case 8:
+                myRGBColor = new Color((
+                        Integer.valueOf(hex.substring(0, 2), 16)
+                        Integer.valueOf(hex.substring(2, 4), 16),
+                        Integer.valueOf(hex.substring(4, 6), 16),
+                        Integer.valueOf(hex.substring(6, 8), 16));
+        }
+
+        return null;
     }
 
     private void openSaveDialog(final ArrayList<String> colorValues) {
@@ -512,7 +632,7 @@ public class ColorPickerActivity  extends Activity {
                 String myHeader = header1.getText().toString();
                 String myContent = description.getText().toString();
                 String myTactic = currentTactic;
-                currentHexColor = myTColor.toHex();
+                //currentHexColor = myTColor.toHex();
 
                 String hex1;
                 String hex2;
@@ -609,5 +729,7 @@ public class ColorPickerActivity  extends Activity {
 
 
     }
+
 }
+
 

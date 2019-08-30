@@ -12,12 +12,10 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_marginTop="150dp"
-        android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.016"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -126,6 +124,55 @@
         app:layout_constraintStart_toStartOf="@+id/colorView5"
         app:layout_constraintTop_toTopOf="parent"
        />
+
+    <TextView
+        android:id="@+id/colorViewText"
+        android:layout_width="78dp"
+        android:layout_height="19dp"
+        android:visibility="invisible"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/rectangle"
+        android:text="#fcba03"
+        app:layout_constraintBottom_toTopOf="@+id/harmonyPicker"
+        app:layout_constraintStart_toStartOf="@+id/colorText" />
+
+    <TextView
+        android:id="@+id/colorViewText2"
+        android:layout_width="78dp"
+        android:layout_height="19dp"
+        android:visibility="invisible"
+        android:layout_marginStart="3dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/rectangle"
+        android:text="#736131"
+        app:layout_constraintBottom_toTopOf="@+id/harmonyPicker"
+        app:layout_constraintStart_toEndOf="@+id/colorViewText" />
+
+    <TextView
+        android:id="@+id/colorViewText3"
+        android:layout_width="78dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="3dp"
+        android:visibility="invisible"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/rectangle"
+        android:text="#5446b0"
+        app:layout_constraintBottom_toTopOf="@+id/harmonyPicker"
+        app:layout_constraintStart_toEndOf="@+id/colorViewText2" />
+
+    <TextView
+        android:id="@+id/colorViewText4"
+        android:layout_width="78dp"
+        android:layout_height="19dp"
+        android:visibility="invisible"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/rectangle"
+        android:text="#b04659"
+        app:layout_constraintBottom_toBottomOf="@+id/colorView3"
+        app:layout_constraintBottom_toTopOf="@+id/harmonyPicker"
+        app:layout_constraintStart_toEndOf="@+id/colorViewText3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
