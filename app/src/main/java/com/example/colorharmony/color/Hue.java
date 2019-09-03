@@ -138,6 +138,6 @@ public class Hue {
 
     @Override
     public String toString() {
-        return "Hue: ID:" + name + " @ " + (int) (hue * 360) + " degrees";
+        return Integer.toString((int) (hue * 360));
     }
 }

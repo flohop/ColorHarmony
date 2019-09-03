@@ -121,6 +121,7 @@ public class FavoriteColor {
 
         this.mhex1 = hex1;
         this.mhex2 = hex2;
+        this.mhex3 = hex3;
         this.id = id;
     }
 
@@ -180,19 +181,19 @@ public class FavoriteColor {
         return returnImage;
     }
     public String getHex1() {
-        return mhex1;
+        return this.mhex1;
     }
 
     public String getHex2() {
-        return mhex2;
+        return this.mhex2;
     }
 
     public String getHex3() {
-        return mhex3;
+        return this.mhex3;
     }
 
     public String getHex4() {
-        return mhex4;
+        return this.mhex4;
     }
 
     public int getFavorite() {
@@ -224,6 +225,41 @@ public class FavoriteColor {
 
     }
 
+    public void setMtitle(String mtitle) {
+        this.mtitle = mtitle;
+    }
+
+    public void setMdescription(String mdescription) {
+        this.mdescription = mdescription;
+    }
+
+    public void setMharmonyType(String mharmonyType) {
+        this.mharmonyType = mharmonyType;
+    }
+
+    public void setMhex1(String mhex1) {
+        this.mhex1 = mhex1;
+    }
+
+    public void setMhex2(String mhex2) {
+        this.mhex2 = mhex2;
+    }
+
+    public void setMhex3(String mhex3) {
+        this.mhex3 = mhex3;
+    }
+
+    public void setMhex4(String mhex4) {
+        this.mhex4 = mhex4;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMfavorite(int mfavorite) {
+        this.mfavorite = mfavorite;
+    }
 }
 
 

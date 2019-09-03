@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/cool2_color_1"
+        android:layout_width="0dp"
+        android:layout_height="252dp"
+        app:layout_constraintWidth_percent="0.333333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <View
+        android:id="@+id/cool2_color_2"
+        android:layout_width="0dp"
+        android:layout_height="252dp"
+
+        app:layout_constraintStart_toEndOf="@+id/cool2_color_1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.333333" />
+
+    <View
+        android:id="@+id/cool2_color_3"
+        android:layout_width="0dp"
+        android:layout_height="252dp"
+        app:layout_constraintStart_toEndOf="@+id/cool2_color_2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.333333" />
+
+    <EditText
+        android:id="@+id/title_top_text_3colors"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:backgroundTint="@color/MidnightBlue"
+        android:hint="@string/save_palette_enter_name"
+        android:layout_width="210dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton_3colors"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_top_text_3colors"
+        app:layout_constraintEnd_toStartOf="@+id/title_top_text_3colors"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_top_text_3colors"
+        android:scaleType="fitCenter"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/circle" />
+
+    <ImageButton
+        android:id="@+id/imageButton2_3colors"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/circle"
+        android:src="@drawable/ic_share_white_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_top_text_3colors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_top_text_3colors"
+        app:layout_constraintTop_toTopOf="@+id/title_top_text_3colors" />
+
+    <EditText
+        android:id="@+id/favorite_description_3colors"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="168dp"
+        android:autoSizeTextType="uniform"
+        android:hint="@string/save_palette_enter_description"
+        android:backgroundTint="@color/CadetBlue"
+        android:gravity="bottom"
+        android:maxLength="200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_top_text_3colors" />
+
+    <TextView
+        android:id="@+id/colorViewValue_3colors1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center_horizontal"
+        android:text="TextView"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cool2_color_1"
+        app:layout_constraintEnd_toStartOf="@+id/cool2_color_2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/colorViewValue_3colors2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center_horizontal"
+        android:text="TextView"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cool2_color_1"
+        app:layout_constraintEnd_toStartOf="@+id/cool2_color_3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cool2_color_2" />
+
+    <TextView
+        android:id="@+id/colorViewValue_3colors3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center_horizontal"
+        android:text="TextView"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cool2_color_1"
+        app:layout_constraintEnd_toEndOf="@+id/cool2_color_3"
+        app:layout_constraintStart_toStartOf="@+id/cool2_color_3" />
+
+    <TextView
+        android:id="@+id/banner_3colors"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/rectangle_banner"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        android:text="Created with ColorHarmony"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/banner_icon_3colors"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/color_wheel"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/banner_3colors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/banner_3colors" />
+</androidx.constraintlayout.widget.ConstraintLayout>

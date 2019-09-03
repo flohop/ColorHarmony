@@ -4,10 +4,12 @@
     <CheckBoxPreference
         android:key="checkbox"
         android:summary="@string/show_color_text_value_summary"
-        android:title="@string/show_color_text_value"/>
+        android:title="@string/show_color_text_value"
+        android:defaultValue="true"/>
 
     <ListPreference
         android:key="list"
+        android:defaultValue="Hex"
         android:dialogTitle="@string/choose_color_text_type_title"
         android:entries="@array/color_formats"
         android:title="@string/choose_color_text_type_title"

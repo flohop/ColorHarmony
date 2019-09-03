@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permission,
                                            int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permission, grantResults);
-        if(hasPermission(Manifest.permission.CAMERA)) {
+        if(hasPermission(Manifest.permission.CAMERA) && requestCode ==  REQUEST_IMAGE_CAPTURE) {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(hasPermission(READ_EXTERNAL_STORAGE)) {
+        if(hasPermission(READ_EXTERNAL_STORAGE )&& requestCode == REQUEST_IMAGE_GALLERY) {
 
             Log.d(LOG_TAG, "I have the permission");
 
@@ -243,9 +243,5 @@ public class MainActivity extends AppCompatActivity {
         else{
             Log.d(LOG_TAG, "Oh no");
         }
-
     }
-
-
-
 }

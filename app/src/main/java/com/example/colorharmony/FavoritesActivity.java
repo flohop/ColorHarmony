@@ -1,6 +1,7 @@
 package com.example.colorharmony;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 
 
 public class FavoritesActivity extends FragmentActivity {
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

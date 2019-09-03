@@ -92,6 +92,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         new RemoveThread(id).start();
     }
 
+    void updateFavoritesValues(String name, String description, int id, int position){
+        new UpdateFavoritesThread(name, description, id, position).start();
+    }
+
     Cursor getEmptyCursor(){
         return (new LoadThread().getEmptyCursor());
     }
@@ -206,6 +210,34 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
 
     }
+
+    public class UpdateFavoritesThread extends Thread{
+        private String name;
+        private String description;
+        private int id;
+        private int position;
+
+        UpdateFavoritesThread(String n, String descr, int colorId, int position){
+            super();
+            this.name = n;
+            this.description = descr;
+            this.id = colorId;
+            this.position = position;
+        }
+
+        @Override
+        public void run(){
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+
+            ContentValues cv = new ContentValues();
+            cv.put(SQLiteHelper.TITLE, this.name);
+            cv.put(SQLiteHelper.DESCRIPTION, this.description);
+            getWritableDatabase().update(TABLE, cv,"_id=" + this.id, null);
+            EventBus.getDefault().post(new FavoritesUpdatedEvent(this.position));
+            Log.d("onUpdateFavorites Num5", " called the EventBus");
+        }
+    }
+
     public class RemoveThread extends Thread{
         int id;
 

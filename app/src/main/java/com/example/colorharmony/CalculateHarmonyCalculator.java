@@ -27,9 +27,58 @@ public class CalculateHarmonyCalculator {
         return newTColor;
     }
 
+    public static String RGBFromHex(String hex){
+        TColor tColor = TColor.newHex(hex);
+        String r = Integer.toString ((int) (tColor.red() *255));
+        String g = Integer.toString ((int) (tColor.green() *255));
+        String b = Integer.toString ((int) (tColor.blue() *255));
+
+        String values = "R:" + r + System.getProperty("line.separator") +  "G:" + g + System.getProperty("line.separator") +  "B:" + b;
+
+        return values;
+    }
+
+    public static String RGBFromHexNoBreak(String hex){
+        TColor tColor = TColor.newHex(hex);
+        String r = Integer.toString ((int) (tColor.red() *255));
+        String g = Integer.toString ((int) (tColor.green() *255));
+        String b = Integer.toString ((int) (tColor.blue() *255));
+
+        String values = "R:" + r +  "G:" + g +  "B:" + b;
+
+        return values;
+    }
+
+    public static String HSVFromHex(String hex){
+        TColor tColor = TColor.newHex(hex);
+
+        String myvalues = "H:" + ((tColor.getClosestHue().toString())) + "°" +  System.getProperty("line.separator") +"S:" + (int)(tColor.saturation() * 100) + "%" + System.getProperty("line.separator") + "V:" + (int)(tColor.brightness() * 100) + "%";
+        return myvalues;
+    }
+
+    public static String HSVFromHexNoBreak(String hex){
+        TColor tColor = TColor.newHex(hex);
+
+        String myvalues = "H:" + ((tColor.getClosestHue().toString())) + "°"  +" S:" + (int)(tColor.saturation() * 100) + "%" + System.getProperty("line.separator") +  "V:" + (int)(tColor.brightness() * 100) + "%";
+        return myvalues;
+    }
+
+    public static String CMYKFromHex(String hex) {
+        TColor tColor = TColor.newHex(hex);
+
+        String values = (int) (tColor.cyan() * 100) + "%" + System.getProperty("line.separator") + (int) (100 * tColor.magenta()) + "%" + System.getProperty("line.separator") + (int) (100* tColor.yellow()) + "%" + System.getProperty("line.separator") + (int) (100*tColor.black()) + "%";
+        return  values;
+    }
+
+    public static String CMYKFromHexNoBreak(String hex) {
+        TColor tColor = TColor.newHex(hex);
+
+        String values = (int) (tColor.cyan() * 100) + "% "  + (int) (100 * tColor.magenta()) + "% "  + (int) (100* tColor.yellow()) + "% " + (int) (100*tColor.black()) + "%";
+        return  values;
+    }
+
     public String getHexValue(TColor myTColor){
         String hex = myTColor.toHex();
-
         return hex;
     }
 
@@ -79,6 +128,7 @@ public class CalculateHarmonyCalculator {
 
         TColor Tcolor1 = myColorList.get(0); //get first monochromatic color
         TColor Tcolor2 = myColorList.get(1); // get second monochromatic color
+
         TColor Tcolor3 = myColorList.get(2); // get  third monochromatic color
         TColor Tcolor4 = myColorList.get(3); // get fourth monochromatic color
 

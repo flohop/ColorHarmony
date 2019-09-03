@@ -48,7 +48,7 @@ public class TriadTheoryStrategy implements ColorTheoryStrategy {
     public ColorList createListFromColor(ReadonlyTColor src) {
         ColorList colors = new ColorList(src);
         colors.add(src.getRotatedRYB(120).lighten(0.1f));
-        colors.add(src.getRotatedRYB(-120).lighten(0.1f));
+        colors.add(src.getRotatedRYB(240).lighten(0.1f)); // original-120
         return colors;
     }
 

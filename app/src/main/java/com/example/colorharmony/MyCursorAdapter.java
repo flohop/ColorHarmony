@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
@@ -26,6 +27,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.ViewHolder>{
 
     private LayoutInflater cursorInflater;
@@ -41,12 +44,15 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
     ArrayList<Integer> toDeleteItemsPosition;
     int numberOfElements;
 
+
     public MyCursorAdapter(Context context, Cursor cursor){
         super(context, cursor);
         this.cursor = cursor;
         this.context = context;
         toDeleteItemsPosition = new ArrayList<>();
+
         numberOfElements = cursor.getCount();
+
 
     }
 
@@ -58,6 +64,7 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
         ViewHolder vh = new ViewHolder(itemView);
         return  vh;
     }
+
 
     @Override
     public void onBindViewHolder(MyCursorAdapter.ViewHolder viewHolder, Cursor cursor) {
@@ -97,6 +104,7 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
                 imageViewIcon.setBackgroundResource(R.drawable.ic_tetradic_harmony);
                 break;
 
+
         }
 
         //set the colors(handle no color available later)
@@ -117,6 +125,7 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
         catch(NumberFormatException e){
             viewColor4.setVisibility(View.INVISIBLE);
         }
+
     }
 
     public void removeItem(int position, int id){
@@ -165,18 +174,21 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        View mView;
 
         public ViewHolder(View view){
             super(view);
+            this.mView = view;
             textViewTitle = (TextView) view.findViewById(R.id.favorite_name);
             imageViewIcon = (ImageView) view.findViewById(R.id.favorite_type_image);
             viewColor1 = (View) view.findViewById(R.id.favorite_color_1);
             viewColor2 = (View) view.findViewById(R.id.favorite_color_2);
-            viewColor3 = (View) view.findViewById(R.id.favorite_color_3);
-            viewColor4 = (View) view.findViewById(R.id.favorite_color_4);
+            viewColor3 = (View) view.findViewById(R.id.favorite_color_4);
+            viewColor4 = (View) view.findViewById(R.id.favorite_color_3);
+
+
+
 
         }
     }
-
-
 }
