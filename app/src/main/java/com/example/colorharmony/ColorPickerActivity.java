@@ -1,8 +1,10 @@
 package com.example.colorharmony;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -37,6 +39,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.colorharmony.color.TColor;
 import com.example.colorharmony.CalculateHarmonyCalculator;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,6 +63,7 @@ public class ColorPickerActivity  extends Activity {
     public Spinner harmonyPicker;
     public ImageButton tacticInfo;
     public ImageView savePalete;
+    public ImageButton tool_bar;
 
 
     public TextView colorTextView1;
@@ -89,6 +95,8 @@ public class ColorPickerActivity  extends Activity {
     int averageColor;
     float[] hsv;
 
+    InterstitialAd mInterstitialAd;
+
 
 
     //prefs
@@ -99,6 +107,16 @@ public class ColorPickerActivity  extends Activity {
 
     public final String LOG_TAG = ColorPickerActivity.class.getSimpleName();
 
+
+    @Override
+    public void onBackPressed() {
+        if(mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+
+
+        super.onBackPressed();
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +144,13 @@ public class ColorPickerActivity  extends Activity {
         colorTextView2 = (TextView) findViewById(R.id.colorViewText2);
         colorTextView3 = (TextView) findViewById(R.id.colorViewText3);
         colorTextView4 = (TextView) findViewById(R.id.colorViewText4);
+        tool_bar = (ImageButton) findViewById(R.id.tool_bar);
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712"); //test ad code
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
 
 
 
@@ -201,6 +226,16 @@ public class ColorPickerActivity  extends Activity {
             }
         });
 
+        tool_bar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+                finish();
+            }
+        });
+
         //bind the colorViews
 
         touched = false;
@@ -251,6 +286,8 @@ public class ColorPickerActivity  extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(colorView.getVisibility() == View.VISIBLE) {
+
+
                     ClipData colorData = ClipData.newPlainText("Color value", colorTextView1.getText().toString());
                     clipboardManager.setPrimaryClip(colorData);
                     Toast.makeText(ColorPickerActivity.this, "Copied to clipboard", Toast.LENGTH_SHORT).show();

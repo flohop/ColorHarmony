@@ -1,51 +1,80 @@
 package com.example.colorharmony;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.wallet.PaymentsClient;
+import com.google.android.gms.wallet.Wallet;
+import com.google.android.gms.wallet.WalletConstants;
+
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     ImageButton cameraImageButton;
     ImageButton galleryImageButton;
+    TextView cameraText;
+
+
+    TextView galleryText;
     private static final int REQUEST_STORAGE = 123;
     private static final int REQUEST_IMAGE_CAPTURE = 1888;
     private static final int REQUEST_IMAGE_GALLERY = 1889;
     private static final int RESULT_LOAD_IMAGE = 124;
+    private Boolean mApplyNightMode = false;
+
+    private PaymentsClient paymentsClient;
+    private ConstraintLayout cLayout;
 
 
     String pathToFile;
+
+
     private File tempProfileImageFile;
+    private AdView mAdView;
+    SharedPreferences prefs;
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -55,47 +84,88 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(prefs.getBoolean("theme_switch", false) == true){
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else{
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        getDelegate().applyDayNight();
+
+
+        //configure google pay
+        Wallet.WalletOptions walletOptions =
+                new Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST) // change to ENVIRONMENT_PRODUCTION later
+                        .build();
+        paymentsClient = Wallet.getPaymentsClient(this, walletOptions);
+
+
+        //find elements
         cameraImageButton = (ImageButton) findViewById(R.id.cameraImageButton);
+        cameraText = (TextView) findViewById(R.id.textView);
+        galleryText = (TextView) findViewById(R.id.textView2);
         galleryImageButton = (ImageButton) findViewById(R.id.galleryImageButton);
 
+        try {
+            cameraImageButton.setOnClickListener(new View.OnClickListener() {
 
+                public void onClick(View v) {
+                    //open the camera(ask for permission) and take a picture for later use
 
-        cameraImageButton.setOnClickListener(new View.OnClickListener() {
+                    if (hasPermission(Manifest.permission.CAMERA)) {
+                        //open the camera
 
-            public void onClick(View v) {
-                //open the camera(ask for permission) and take a picture for later use
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                            startCamera();
 
-                if(hasPermission(Manifest.permission.CAMERA)) {
-                    //open the camera
-
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                        startCamera();
-
+                        }
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.CAMERA}
+                                , REQUEST_IMAGE_CAPTURE);
                     }
                 }
-                else{
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}
-                    ,REQUEST_IMAGE_CAPTURE );
-                }
-            }
-        });
+            });
+        }
+        catch (NullPointerException e){
 
+        }
 
-        galleryImageButton.setOnClickListener(new View.OnClickListener() {
+        try {
+            galleryImageButton.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View v) {
-                if(hasPermission(READ_EXTERNAL_STORAGE)) {
-                    openGallery();
+                public void onClick(View v) {
+                    if (hasPermission(READ_EXTERNAL_STORAGE)) {
+                        openGallery();
+                    } else {
+                        requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_IMAGE_GALLERY);
+                    }
                 }
-                else{
-                    requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_IMAGE_GALLERY);
-                }
-            }
-        });
+            });
+        }
+        catch (NullPointerException e){
+
+        }
+        MobileAds.initialize(this,
+                getString(R.string.admob_app_id));
+        // Find Banner ad
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        // Display Banner ad
+        mAdView.loadAd(adRequest);
+
+        //dark theme
+
+        cLayout = findViewById(R.id.activity_main_constraint_layout);
+
 
 
     }
+
+
 
     private boolean hasPermission(String perm) {
         return(ContextCompat.checkSelfPermission(MainActivity.this, perm)==
@@ -165,15 +235,17 @@ public class MainActivity extends AppCompatActivity {
                 //let the user share the app
                 return (true);
 
-            case R.id.support_me:
-                //let the use  buy me a coffee
-
-                //temporary:
+            case R.id.favorite_colors:
+                //let the user see hit saved color palettes
                 startActivity(new Intent(this, FavoritesActivity.class));
                 return (true);
 
             case R.id.settings:
                 startActivity(new Intent(this, EditPreferences.class));
+                return (true);
+
+            case R.id.support_me:
+                showSupportDialog();
                 return (true);
         }
 
@@ -242,6 +314,55 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             Log.d(LOG_TAG, "Oh no");
+        }
+    }
+
+    private void showSupportDialog(){
+
+        ImageButton back_arrow;
+
+
+        final ArrayList<SupportMeObject> objects = new ArrayList<>();
+
+        objects.add(new SupportMeObject("Water", R.drawable.water_bottle_icon, 1));
+        objects.add(new SupportMeObject("Coffee", R.drawable.coffee_icon, 2));
+        objects.add(new SupportMeObject("Snack", R.drawable.chips_icon, 5));
+        objects.add(new SupportMeObject("Meal", R.drawable.meal_icon, 10));
+
+
+        final AlertDialog supportDialog = new AlertDialog.Builder(this).create();
+
+        LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+        View saveView = factory.inflate(R.layout.support_me_dialog, null);
+
+        final ListView listView = saveView.findViewById(R.id.support_list_view);
+        listView.setAdapter(new SupportAdapter(objects, this));
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "Clicked:" + objects.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        back_arrow = saveView.findViewById(R.id.support_me_back_button);
+
+        back_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supportDialog.cancel();
+            }
+        });
+        supportDialog.setView(saveView);
+        new Dialog(getApplicationContext());
+        supportDialog.show();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("theme_switch")) {
+
+            Log.d(LOG_TAG, "onSharedPreferenceChanged: mApplyNightMode changed to:" + mApplyNightMode.toString());
         }
     }
 }

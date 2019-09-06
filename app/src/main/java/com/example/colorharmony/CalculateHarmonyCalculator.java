@@ -66,7 +66,7 @@ public class CalculateHarmonyCalculator {
     public static String CMYKFromHex(String hex) {
         TColor tColor = TColor.newHex(hex);
 
-        String values = (int) (tColor.cyan() * 100) + "%" + System.getProperty("line.separator") + (int) (100 * tColor.magenta()) + "%" + System.getProperty("line.separator") + (int) (100* tColor.yellow()) + "%" + System.getProperty("line.separator") + (int) (100*tColor.black()) + "%";
+        String values ="C: " + (int) (tColor.cyan() * 100) + "%" + System.getProperty("line.separator") + "M: " + (int) (100 * tColor.magenta()) + "%" + System.getProperty("line.separator") +  "Y: " + (int) (100* tColor.yellow()) + "%" + System.getProperty("line.separator") + "K: " +(int) (100*tColor.black()) + "%";
         return  values;
     }
 

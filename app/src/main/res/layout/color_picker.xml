@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="532dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="150dp"
         android:layout_weight="1"
@@ -36,6 +36,7 @@
         android:layout_width="78dp"
         android:layout_height="100dp"
         android:layout_marginStart="6dp"
+        android:layout_marginTop="40dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,6 +46,7 @@
         android:layout_width="78dp"
         android:layout_height="100dp"
         android:layout_marginStart="87dp"
+        android:layout_marginTop="40dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,6 +56,7 @@
         android:layout_width="78dp"
         android:layout_height="100dp"
         android:layout_marginStart="168dp"
+        android:layout_marginTop="40dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -63,6 +66,7 @@
         android:layout_width="78dp"
         android:layout_height="100dp"
         android:layout_marginStart="249dp"
+        android:layout_marginTop="40dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -71,7 +75,7 @@
         android:id="@+id/harmonyPicker"
         android:layout_width="360dp"
         android:layout_height="46dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="140dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,67 +112,72 @@
     <TextView
         android:id="@+id/colorViewText"
         android:layout_width="78dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="6dp"
         android:layout_height="30dp"
-        android:paddingLeft = "5dp"
-        android:paddingRight ="5dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
+        android:layout_marginStart="8dp"
         android:autoSizeTextType="uniform"
         android:background="@drawable/rectangle"
+        android:paddingLeft="5dp"
+        android:paddingTop="3dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="3dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/harmonyPicker"
+        app:layout_constraintBottom_toBottomOf="@+id/colorView"
         app:layout_constraintStart_toStartOf="@+id/colorText" />
 
     <TextView
         android:id="@+id/colorViewText2"
         android:layout_width="78dp"
         android:layout_height="30dp"
-        android:paddingLeft = "5dp"
-        android:paddingRight ="5dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
-        android:autoSizeTextType="uniform"
         android:layout_marginStart="3dp"
-        android:layout_marginBottom="6dp"
+        android:autoSizeTextType="uniform"
         android:background="@drawable/rectangle"
+        android:paddingLeft="5dp"
+        android:paddingTop="3dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="3dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/harmonyPicker"
+        app:layout_constraintBottom_toBottomOf="@+id/colorView2"
         app:layout_constraintStart_toEndOf="@+id/colorView" />
 
     <TextView
         android:id="@+id/colorViewText3"
         android:layout_width="78dp"
         android:layout_height="30dp"
-        android:paddingLeft = "5dp"
-        android:paddingRight ="5dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
-        android:autoSizeTextType="uniform"
         android:layout_marginStart="3dp"
-        android:layout_marginBottom="6dp"
+        android:autoSizeTextType="uniform"
         android:background="@drawable/rectangle"
+        android:paddingLeft="5dp"
+        android:paddingTop="3dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="3dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/harmonyPicker"
+        app:layout_constraintBottom_toBottomOf="@+id/colorView3"
         app:layout_constraintStart_toEndOf="@+id/colorView2" />
 
     <TextView
         android:id="@+id/colorViewText4"
         android:layout_width="78dp"
         android:layout_height="30dp"
-        android:paddingLeft = "5dp"
-        android:paddingRight ="5dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
-        android:autoSizeTextType="uniform"
         android:layout_marginStart="3dp"
-        android:layout_marginBottom="6dp"
+        android:autoSizeTextType="uniform"
         android:background="@drawable/rectangle"
+        android:paddingLeft="5dp"
+        android:paddingTop="3dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="3dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/colorView3"
-        app:layout_constraintBottom_toTopOf="@+id/harmonyPicker"
+        app:layout_constraintBottom_toBottomOf="@+id/colorView4"
         app:layout_constraintStart_toEndOf="@+id/colorView3" />
+
+    <ImageButton
+        android:id="@+id/tool_bar"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="#009688"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/colorText"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

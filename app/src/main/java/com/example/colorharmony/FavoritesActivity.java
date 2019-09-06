@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 
 
 public class FavoritesActivity extends FragmentActivity {
+    FavoriteColorsFragment f;
 
 
     @Override
@@ -21,15 +22,15 @@ public class FavoritesActivity extends FragmentActivity {
         if(getSupportFragmentManager().findFragmentById(android.R.id.content) == null) {
             Log.d("My fragments", "the fragment is being added");
 
-            FavoriteColorsFragment f = new FavoriteColorsFragment();
+            f = new FavoriteColorsFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(android.R.id.content, f).commit();
 
         }
-        }
-
-        public void closeFavorites(){
-            finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

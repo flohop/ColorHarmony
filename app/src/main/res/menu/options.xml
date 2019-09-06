@@ -2,18 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/share"
-        android:icon="@drawable/ic_share_white_24dp"
-        android:title="@string/share"
-        android:contentDescription="@string/share_description"
-        app:showAsAction="always">
 
-    </item>
 
     <item
-        android:id="@+id/support_me"
-        android:icon="@drawable/ic_cake_white_24dp"
+        android:id="@+id/favorite_colors"
+        android:icon="@drawable/ic_star_white_24dp"
         android:title="@string/support"
         android:contentDescription="@string/support_description"
         app:showAsAction="always">
@@ -21,11 +14,47 @@
     </item>
 
     <item
+        android:id="@+id/support_me"
+        android:icon="@drawable/ic_cake_white_24dp"
+        android:title="@string/favorites"
+        android:contentDescription="@string/favorites_description"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="More">
+
+    <menu>
+
+
+    <item
         android:id="@+id/settings"
-        android:icon="@drawable/ic_settings_white_24dp"
-        android:title="@string/support"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings"
         android:contentDescription="@string/settings_description"
-        app:showAsAction="always">
+        app:showAsAction="ifRoom">
 
     </item>
+
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="@string/share"
+        android:contentDescription="@string/share_description"
+        app:showAsAction="ifRoom">
+    </item>
+
+    <item
+        android:id="@+id/buy_pro"
+        android:icon="@drawable/ic_attach_money_black_24dp"
+        android:title="Buy pro version"
+        android:contentDescription="Purchase the pro version of this app"
+        app:showAsAction="ifRoom"/>
+
+        </menu>
+    </item>
+
 </menu>

@@ -233,7 +233,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             cv.put(SQLiteHelper.TITLE, this.name);
             cv.put(SQLiteHelper.DESCRIPTION, this.description);
             getWritableDatabase().update(TABLE, cv,"_id=" + this.id, null);
-            EventBus.getDefault().post(new FavoritesUpdatedEvent(this.position));
+            Cursor updatedCursor = getReadableDatabase().rawQuery("SELECT* FROM saved_colors", null);
+            EventBus.getDefault().post(new FavoritesUpdatedEvent(this.position, updatedCursor));
             Log.d("onUpdateFavorites Num5", " called the EventBus");
         }
     }

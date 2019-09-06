@@ -12,8 +12,18 @@
         android:id="@+id/recycler_view"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+      >
+
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/fragment_banner_ad"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:adSize="SMART_BANNER"
+        app:adUnitId="@string/admob_banner_id"/>
 
 
 </LinearLayout>

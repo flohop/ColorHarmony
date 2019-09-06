@@ -44,6 +44,7 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
     ArrayList<Integer> toDeleteItemsPosition;
     int numberOfElements;
 
+    private static final int EMPTY_VIEW = 10;
 
     public MyCursorAdapter(Context context, Cursor cursor){
         super(context, cursor);
@@ -51,14 +52,18 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
         this.context = context;
         toDeleteItemsPosition = new ArrayList<>();
 
+
         numberOfElements = cursor.getCount();
 
 
     }
 
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d("onCreateViewHolder", " got called");
+
         itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.favorites_row, parent, false);
         ViewHolder vh = new ViewHolder(itemView);
@@ -80,50 +85,53 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
         String hex4 = cursor.getString(cursor.getColumnIndex(SQLiteHelper.COLOR_VALUE_4));
 
         //assign the values to the elements
-        textViewTitle.setText(title);
-        viewHolder.itemView.setTag(id);
+        try {
+            textViewTitle.setText(title);
+            viewHolder.itemView.setTag(id);
 
-        //search for the icon
-        switch(type){
-            case ("Complementary"):
-                imageViewIcon.setBackgroundResource(R.drawable.ic_complementary_harmony);
-                break;
-            case ("Monochromatic"):
-                imageViewIcon.setBackgroundResource(R.drawable.ic_monochromatic_harmony);
-                break;
-            case ("Analogous"):
-                imageViewIcon.setBackgroundResource(R.drawable.ic_analogous_harmony);
-                break;
-            case ("Split Complementary"):
-                imageViewIcon.setBackgroundResource(R.drawable.ic_split_complementary_harmony);
-                break;
-            case ("Triadic"):
-                imageViewIcon.setBackgroundResource(R.drawable.ic_triadic_harmony);
-                break;
-            case ("Tetradic"):
-                imageViewIcon.setBackgroundResource(R.drawable.ic_tetradic_harmony);
-                break;
+            //search for the icon
+            switch (type) {
+                case ("Complementary"):
+                    imageViewIcon.setBackgroundResource(R.drawable.ic_complementary_harmony);
+                    break;
+                case ("Monochromatic"):
+                    imageViewIcon.setBackgroundResource(R.drawable.ic_monochromatic_harmony);
+                    break;
+                case ("Analogous"):
+                    imageViewIcon.setBackgroundResource(R.drawable.ic_analogous_harmony);
+                    break;
+                case ("Split Complementary"):
+                    imageViewIcon.setBackgroundResource(R.drawable.ic_split_complementary_harmony);
+                    break;
+                case ("Triadic"):
+                    imageViewIcon.setBackgroundResource(R.drawable.ic_triadic_harmony);
+                    break;
+                case ("Tetradic"):
+                    imageViewIcon.setBackgroundResource(R.drawable.ic_tetradic_harmony);
+                    break;
 
 
+            }
+
+            //set the colors(handle no color available later)
+
+            viewColor1.setBackgroundColor(Color.parseColor("#" + hex1));
+            viewColor2.setBackgroundColor(Color.parseColor("#" + hex2));
+            try {
+                viewColor3.setVisibility(View.VISIBLE);
+                viewColor3.setBackgroundColor(Color.parseColor("#" + hex3));
+            } catch (NumberFormatException e) {
+                viewColor3.setVisibility(View.INVISIBLE);
+            }
+            try {
+                viewColor4.setVisibility(View.VISIBLE);
+                viewColor4.setBackgroundColor(Color.parseColor("#" + hex4));
+            } catch (NumberFormatException e) {
+                viewColor4.setVisibility(View.INVISIBLE);
+            }
         }
-
-        //set the colors(handle no color available later)
-
-        viewColor1.setBackgroundColor(Color.parseColor("#" + hex1));
-        viewColor2.setBackgroundColor(Color.parseColor("#" + hex2));
-        try{
-            viewColor3.setVisibility(View.VISIBLE);
-            viewColor3.setBackgroundColor(Color.parseColor("#" + hex3));
-        }
-        catch(NumberFormatException e){
-            viewColor3.setVisibility(View.INVISIBLE);
-        }
-        try{
-            viewColor4.setVisibility(View.VISIBLE);
-            viewColor4.setBackgroundColor(Color.parseColor("#" + hex4));
-        }
-        catch(NumberFormatException e){
-            viewColor4.setVisibility(View.INVISIBLE);
+        catch(NullPointerException e){
+            Log.d(TAG, "onBindViewHolder: " + e.getStackTrace());
         }
 
     }
@@ -186,9 +194,7 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
             viewColor3 = (View) view.findViewById(R.id.favorite_color_4);
             viewColor4 = (View) view.findViewById(R.id.favorite_color_3);
 
-
-
-
         }
     }
+
 }

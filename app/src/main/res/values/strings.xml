@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">Color Harmony</string>
-    <string name="gallery_button_description">Choose an image from your gallery</string>
+    <string name="gallery_button_description">Open gallery</string>
     <string name="camera_button_description">Take a picture</string>
     <string name="share">Share</string>
     <string name="share_description">Share the app with your friends</string>
     <string name="settings">Settings</string>
     <string name="settings_description">Changed the settings of the app</string>
     <string name="support">Support me</string>
+    <string name="favorites">Saved palettes</string>
+    <string name="favorites_description">View your saved color palettes </string>
     <string name="support_description">Buy the developer a coffee</string>
     <string name="rotate">Rotate image</string>
     <string name="rotate_description">Rotate the image by 180 degree</string>
@@ -33,4 +35,19 @@
     <string name="choose_color_text_type">Pick color text type</string>
     <string name="choose_color_text_type_summary">Pick the format you want the color text displayed in</string>
     <string name="choose_color_text_type_title">Pick color format</string>
+    <string name="switch_theme">Switch your theme</string>
+    <string name="switch_theme_key">theme_switch</string>
+    <string name="switch_dark_theme">Switch to dark theme</string>
+    <string name="switch_light_theme">Switch to light theme</string>
+    <string name="switch_description">Switch the theme the app</string>
+
+    <!-- Ad Strings !-->
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!-- Support me !-->
+    <string name="support_header_text">Hi, I\'m Florian. Thanks a lot for using my app, it really
+    helps and encourages me. This page is for donations. If you want to buy me a meal or a cup of coffee, I would
+    appreciate your kindness very much and it would help me out a lot. Anyway I appreciate every user of Color Harmony
+    whether they donate or not.\n<b>Big thanks to you all! </b></string>
 </resources>

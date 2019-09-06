@@ -50,6 +50,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -77,12 +80,14 @@ public class FavoriteColorsFragment extends Fragment {
     private static final String PREF_CHOOSE_FORMATNG = "list";
     public FavoritesActivity activity;
 
+    private AdView bannerAd;
+
 
 
     public static interface ClickListener {
-        public void onClick(View view, int position);
+         void onClick(View view, int position);
 
-        public void onLongClick(View view, int position);
+         void onLongClick(View view, int position);
     }
 
 
@@ -94,6 +99,7 @@ public class FavoriteColorsFragment extends Fragment {
         setRetainInstance(true);
 
 
+
     }
 
 
@@ -101,6 +107,9 @@ public class FavoriteColorsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.from(container.getContext()).inflate(R.layout.favorite_colors_fragment, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        bannerAd = (AdView) rootView.findViewById(R.id.fragment_banner_ad);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        bannerAd.loadAd(adRequest);
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -157,15 +166,18 @@ public class FavoriteColorsFragment extends Fragment {
         EventBus.getDefault().register(this);
         db = SQLiteHelper.getInstance(getActivity());
         db.loadFavorites();
+        if(db != null) {
+            db.close();
+        }
     }
 
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
         Log.d("STOPPED", " Fragment got stopped");
-        /*if (current != null) {
+        if (current != null) {
             current.close();
-        }*/
+        }
         super.onStop();
     }
 
@@ -181,12 +193,14 @@ public class FavoriteColorsFragment extends Fragment {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 final int position = viewHolder.getAdapterPosition();
 
-
                 if (direction == ItemTouchHelper.LEFT) {
                     final int deletedPosition = position;
 
                     removeItem(position, (int) viewHolder.itemView.getTag());
 
+                    //disabled as long as i cant figure out why it triggers weird behavior in the app
+
+                    /*
                     // showing snack bar with Undo option
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.LinearLayout1), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackbar.getView().getLayoutParams();
@@ -224,12 +238,13 @@ public class FavoriteColorsFragment extends Fragment {
                         }
                     });
                     snackbar.setActionTextColor(Color.YELLOW);
-                    snackbar.show();
+                    snackbar.show();*/
                 } else {
                     removeItem(position, (int) viewHolder.itemView.getTag());
 
-                    // showing snack bar with Undo option
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.LinearLayout1), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
+
+                    // showing snack bar with Undo option(disabled because it triggers weird things in the list
+                    /*Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.LinearLayout1), " removed from Recyclerview!", Snackbar.LENGTH_LONG);
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackbar.getView().getLayoutParams();
                     params.setMargins(0, 0, 0, new MyContextWrapper(getActivity()).getStatusBarHeight());
                     snackbar.getView().setLayoutParams(params);
@@ -264,7 +279,7 @@ public class FavoriteColorsFragment extends Fragment {
                     });
                     snackbar.setActionTextColor(Color.YELLOW);
 
-                    snackbar.show();
+                    snackbar.show();*/
                 }
             }
 
@@ -306,7 +321,7 @@ public class FavoriteColorsFragment extends Fragment {
     public void onDataUpdated(UpdatedEvent event) {
         Log.d("CURSOR", " got updated!!!");
 
-
+        current.close();
         adapter.swapCursor(event.getUpdatedCursor());
 
         notifier();
@@ -317,7 +332,10 @@ public class FavoriteColorsFragment extends Fragment {
     @Subscribe(threadMode =  ThreadMode.MAIN)
     public void onRowChanged(FavoritesUpdatedEvent event){
         Log.d(TAG, "onRowChanged: was called from the EventBus");
-        adapter.notifyItemChanged(event.getPosition());
+        current = event.getCursor();
+        adapter.swapCursor(current);
+
+
     }
 
 
@@ -478,7 +496,7 @@ public class FavoriteColorsFragment extends Fragment {
         TextView cool_color_text_2;
         final EditText favorite_description;
         ImageButton harmonyType;
-        final ImageButton shareButton;
+        final ImageButton shareButton2;
         final TextView banner;
         final ImageView banner_icon;
 
@@ -495,22 +513,21 @@ public class FavoriteColorsFragment extends Fragment {
         cool_color_text_2 = favoriteView.findViewById(R.id.colorViewValue2);
         favorite_description = favoriteView.findViewById(R.id.favorite_description);
         harmonyType = favoriteView.findViewById(R.id.imageButton); // maybe not button
-        shareButton = favoriteView.findViewById(R.id.imageButton2);
+        shareButton2 = favoriteView.findViewById(R.id.imageButton2);
 
         //Bind OnTouchListeners
 
-        shareButton.setOnTouchListener(new View.OnTouchListener() {
+        shareButton2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                shareButton.setVisibility(View.INVISIBLE);
+            public void onClick(View v) {
+                shareButton2.setVisibility(View.INVISIBLE);
                 banner.setVisibility(View.VISIBLE);
                 banner_icon.setVisibility(View.VISIBLE);
 
                 sendBitmapToWhatsApp("Created with Color Harmony", getBitmapFromView(favoriteView));
-                shareButton.setVisibility(View.VISIBLE);
+                shareButton2.setVisibility(View.VISIBLE);
                 banner.setVisibility(View.INVISIBLE);
                 banner_icon.setVisibility(View.INVISIBLE);
-                return false;
             }
         });
 
@@ -561,7 +578,6 @@ public class FavoriteColorsFragment extends Fragment {
 
 
                 Log.d("Updated", "updated values with SQL");
-                Toast.makeText(getActivity(), "Dismissed", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -593,7 +609,7 @@ public class FavoriteColorsFragment extends Fragment {
         TextView cool_color_text_3;
         final EditText favorite_description;
         ImageButton harmonyType;
-        final ImageButton shareButton;
+        final ImageButton shareButton3;
         final TextView banner;
         final ImageView banner_icon;
 
@@ -612,22 +628,21 @@ public class FavoriteColorsFragment extends Fragment {
         cool_color_text_3 = favoriteView.findViewById(R.id.colorViewValue_3colors3);
         favorite_description = favoriteView.findViewById(R.id.favorite_description_3colors);
         harmonyType = favoriteView.findViewById(R.id.imageButton_3colors); // maybe not button
-        shareButton = favoriteView.findViewById(R.id.imageButton2_3colors);
+        shareButton3 = favoriteView.findViewById(R.id.imageButton2_3colors);
 
         //Bind OnTouchListeners
 
-        shareButton.setOnTouchListener(new View.OnTouchListener() {
+        shareButton3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                shareButton.setVisibility(View.INVISIBLE);
+            public void onClick(View v) {
+                shareButton3.setVisibility(View.INVISIBLE);
                 banner.setVisibility(View.VISIBLE);
                 banner_icon.setVisibility(View.VISIBLE);
 
                 sendBitmapToWhatsApp("Created with Color Harmony", getBitmapFromView(favoriteView));
-                shareButton.setVisibility(View.VISIBLE);
+                shareButton3.setVisibility(View.VISIBLE);
                 banner.setVisibility(View.INVISIBLE);
                 banner_icon.setVisibility(View.INVISIBLE);
-                return false;
             }
         });
 
@@ -690,7 +705,7 @@ public class FavoriteColorsFragment extends Fragment {
                 loadedFavColors.set(position, theColor);
 
                 Log.d("Updated", "updated values with SQL");
-                Toast.makeText(getActivity(), "Dismissed", Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -725,7 +740,7 @@ public class FavoriteColorsFragment extends Fragment {
         TextView cool_color_text_4;
         final EditText favorite_description;
         ImageButton harmonyType;
-        final ImageButton shareButton;
+        final ImageButton shareButton4;
         final TextView banner;
         final ImageView banner_icon;
 
@@ -746,22 +761,21 @@ public class FavoriteColorsFragment extends Fragment {
         cool_color_text_4 = favoriteView.findViewById(R.id.colorViewValue_4colors4);
         favorite_description = favoriteView.findViewById(R.id.favorite_description_4colors);
         harmonyType = favoriteView.findViewById(R.id.imageButton_4colors); // maybe not button
-        shareButton = favoriteView.findViewById(R.id.imageButton2_4colors);
+        shareButton4 = favoriteView.findViewById(R.id.imageButton2_4colors);
 
         //Bind OnTouchListeners
 
-        shareButton.setOnTouchListener(new View.OnTouchListener() {
+        shareButton4.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                shareButton.setVisibility(View.INVISIBLE);
+            public void onClick(View v) {
+                shareButton4.setVisibility(View.INVISIBLE);
                 banner.setVisibility(View.VISIBLE);
                 banner_icon.setVisibility(View.VISIBLE);
 
                 sendBitmapToWhatsApp("Created with Color Harmony", getBitmapFromView(favoriteView));
-                shareButton.setVisibility(View.VISIBLE);
+                shareButton4.setVisibility(View.VISIBLE);
                 banner.setVisibility(View.INVISIBLE);
                 banner_icon.setVisibility(View.INVISIBLE);
-                return false;
             }
         });
 
@@ -837,7 +851,6 @@ public class FavoriteColorsFragment extends Fragment {
                 loadedFavColors.set(position, theColor);
 
                 Log.d("Updated", "updated values with SQL");
-                Toast.makeText(getActivity(), "Dismissed", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -891,6 +904,7 @@ public class FavoriteColorsFragment extends Fragment {
     }
 
     public void sendBitmapToWhatsApp(String pack, Bitmap bitmap) {
+        Log.d(TAG, "sendBitmapToWhatsApp: got called");
         PackageManager pm = getActivity().getPackageManager();
         try {
             if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -910,7 +924,7 @@ public class FavoriteColorsFragment extends Fragment {
                 sendIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, pack);
                 sendIntent.setType("image/*");
-                startActivity(Intent.createChooser(sendIntent, "Send colors"));
+                startActivity(Intent.createChooser(sendIntent, "Select app"));
             }
         } catch (Exception e) {
             Log.e("Error on sharing", e + " ");
@@ -926,6 +940,7 @@ public class FavoriteColorsFragment extends Fragment {
         switch (requestCode) {
             case 3:
                 if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
             }
                 else{
                     Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();

@@ -16,4 +16,13 @@
         android:summary="@string/choose_color_text_type"
         android:entryValues="@array/color_values"/>
 
+    <SwitchPreference
+        android:title="@string/switch_theme"
+        android:key="@string/switch_theme_key"
+        android:switchTextOn="@string/switch_light_theme"
+        android:switchTextOff="@string/switch_dark_theme"
+        android:contentDescription="@string/switch_description"/>
+
+
+
 </PreferenceScreen>
