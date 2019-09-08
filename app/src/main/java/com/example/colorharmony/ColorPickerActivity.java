@@ -1,6 +1,8 @@
 package com.example.colorharmony;
 
+import android.animation.Animator;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,10 +13,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +29,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +41,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.example.colorharmony.color.TColor;
 import com.example.colorharmony.CalculateHarmonyCalculator;
@@ -269,13 +277,18 @@ public class ColorPickerActivity  extends Activity {
 
         try {
             averageColor = calculateAverageColor(imageBitmap, 1);
+
+
         }
         catch(NullPointerException e){
             Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show();
             Intent returnIntent = new Intent(this, MainActivity.class);
             startActivity(returnIntent);
         }
+        Log.d(LOG_TAG, "onCreate: averageColor:" + averageColor);
+
         constraintLayout.setBackgroundColor(averageColor);
+
 
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache(true);
@@ -384,8 +397,7 @@ public class ColorPickerActivity  extends Activity {
                     myTColor = CalculateHarmonyCalculator.TColorFromRGB((float)r, (float)g, (float)b);
                     currentHexColor = myTColor.toHex();
 
-                    colorView.setBackgroundColor(Color.rgb(myTColor.red(),myTColor.green(), myTColor.blue()));
-
+                    colorView.setBackgroundColor(Color.parseColor("#" + myTColor.toHex()));
                     setHarmonicColors(myTColor);
                     setHarmonyText();
 
@@ -715,6 +727,8 @@ public class ColorPickerActivity  extends Activity {
                 return null;
         }
     }
+
+
 
 
 

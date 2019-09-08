@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -21,7 +22,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
@@ -30,12 +37,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.Window;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -43,13 +54,28 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import org.json.JSONException;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
+import es.dmoral.toasty.Toasty;
+
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -75,8 +101,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private File tempProfileImageFile;
     private AdView mAdView;
     SharedPreferences prefs;
+    private Context myContext;
 
+    private int donation_amount;
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    //PayPal infos
+    String clientId = "AVj9-bLME-v2UqSd9fcn5p0HRXgZkUIMtStHOgSikWN9KL2m9g1YWheiDhiAmhPtQgLJI9XD5kpnkJMS";
+    String clientSecret = "EFXHmh-OxOsBveyKtTtZ8gCQEh6fFMiIdlwW02-DdWQbI5Yuw6fum-R_E3i_VInlNPTn9gAC0e42UIQC";
+    PayPalConfiguration configuration;
 
 
     @Override
@@ -84,14 +117,24 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        myContext = this;
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(prefs.getBoolean("theme_switch", false) == true){
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            Window windows = this.getWindow();
+            windows.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            windows.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            windows.setStatusBarColor(ContextCompat.getColor(this, R.color.dark_theme_blue));
         }
         else{
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            Window windows = this.getWindow();
+            windows.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            windows.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            windows.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+
+
         }
         getDelegate().applyDayNight();
 
@@ -101,6 +144,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 new Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST) // change to ENVIRONMENT_PRODUCTION later
                         .build();
         paymentsClient = Wallet.getPaymentsClient(this, walletOptions);
+        
+        //setup paypal
+        configuration = new PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+                .clientId(clientId);
+
+        Intent intent = new Intent();
+        intent.setClass(myContext, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
+        startService(intent);
 
 
         //find elements
@@ -108,6 +160,20 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         cameraText = (TextView) findViewById(R.id.textView);
         galleryText = (TextView) findViewById(R.id.textView2);
         galleryImageButton = (ImageButton) findViewById(R.id.galleryImageButton);
+        cLayout = (ConstraintLayout) findViewById(R.id.activity_main_constraint_layout);
+
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("theme_switch", false) == true) {
+            cameraImageButton.setBackgroundResource(R.drawable.round_button_night);
+            galleryImageButton.setBackgroundResource(R.drawable.round_button_night);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.dark_theme_blue)));
+
+            Log.d(LOG_TAG, "onCreate: button is blue!!");
+        }
+        else{
+            cameraImageButton.setBackgroundResource(R.drawable.round_button_day);
+            galleryImageButton.setBackgroundResource(R.drawable.round_button_day);
+            Log.d(LOG_TAG, "onCreate: button is green!!");
+        }
 
         try {
             cameraImageButton.setOnClickListener(new View.OnClickListener() {
@@ -124,9 +190,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                         }
                     } else {
-                        requestPermissions(new String[]{Manifest.permission.CAMERA}
-                                , REQUEST_IMAGE_CAPTURE);
+                        if(Build.VERSION.SDK_INT >= 23) {
+                            requestPermissions(new String[]{Manifest.permission.CAMERA}
+                                    , REQUEST_IMAGE_CAPTURE);
+                        }
                     }
+
+
                 }
             });
         }
@@ -141,8 +211,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     if (hasPermission(READ_EXTERNAL_STORAGE)) {
                         openGallery();
                     } else {
-                        requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_IMAGE_GALLERY);
+                        if(Build.VERSION.SDK_INT >= 23) {
+                            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_IMAGE_GALLERY);
+                        }
                     }
+
                 }
             });
         }
@@ -160,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         //dark theme
 
         cLayout = findViewById(R.id.activity_main_constraint_layout);
+
 
 
 
@@ -215,6 +289,38 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             startActivity(startPickerIntent);
 
         }
+        
+        else if(result_code == Activity.RESULT_OK && request_code==667){
+            PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            Toasty.normal(this, "Big Thanks!", getResources().getDrawable(R.drawable.heart_icon, null)).show();
+            GMailSender sender = new GMailSender("armorgames555@googlemail.com", "armorgames555");
+            try {
+                sender.sendMail("Got a donation", "You received a donation from your app Color Harmony for " + donation_amount + "€",
+                        "armorgames555@googlemail.com", "hoppe.florian02@gmail.com");
+                Toast.makeText(myContext, "Send mail", Toast.LENGTH_LONG).show();
+                Log.d(LOG_TAG, "onActivityResult: send email succesfully");
+            }
+
+            catch (Exception e){
+                Log.e("Send mail", e.getMessage(), e);
+            }
+            if(confirmation != null){
+                try{
+
+                    Log.i("paymentExample", confirmation.toJSONObject().toString(4));
+                }
+                
+                catch ( JSONException e) {
+                    Log.e("paymentExample", "an extremely unlikely failure occurred", e);
+                }
+            }
+        }
+        else if(result_code == Activity.RESULT_CANCELED && request_code == 667){
+            Toast.makeText(myContext, "Donation canceled", Toast.LENGTH_SHORT).show();
+        }
+        else if(result_code == PaymentActivity.RESULT_EXTRAS_INVALID && request_code == 667) {
+            Toast.makeText(myContext, "Something invalid happened", Toast.LENGTH_SHORT).show();
+        }
 
         if(result_code == RESULT_OK) {
             Log.d(LOG_TAG, (Integer.toString(request_code)));
@@ -233,6 +339,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         switch(item.getItemId()) {
             case R.id.share:
                 //let the user share the app
+
+                sendBitmapToWhatsApp("Check out this cool app", BitmapFactory.decodeResource(this.getResources(),R.drawable.color_wheel));
                 return (true);
 
             case R.id.favorite_colors:
@@ -317,11 +425,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
+        super.onDestroy();
+    }
+
     private void showSupportDialog(){
 
         ImageButton back_arrow;
-
-
+        
         final ArrayList<SupportMeObject> objects = new ArrayList<>();
 
         objects.add(new SupportMeObject("Water", R.drawable.water_bottle_icon, 1));
@@ -335,6 +448,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         LayoutInflater factory = LayoutInflater.from(MainActivity.this);
         View saveView = factory.inflate(R.layout.support_me_dialog, null);
 
+        if(PreferenceManager.getDefaultSharedPreferences(myContext).getBoolean("theme_switch", false) == true) {
+            saveView.findViewById(R.id.support_dialog_header).setBackgroundColor(ContextCompat.getColor(this,R.color.dark_theme_primary_color));
+        }
+
         final ListView listView = saveView.findViewById(R.id.support_list_view);
         listView.setAdapter(new SupportAdapter(objects, this));
 
@@ -342,6 +459,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, "Clicked:" + objects.get(position).getName(), Toast.LENGTH_SHORT).show();
+                //set paypal payment details
+                PayPalPayment payment = new PayPalPayment(new BigDecimal(objects.get(position).getPrice()),
+                        "EUR", "Donate " + objects.get(position).getName() + " to Florian", PayPalPayment.PAYMENT_INTENT_SALE);
+                
+                Intent intent = new Intent(myContext, PaymentActivity.class);
+                
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+                donation_amount = (int) objects.get(position).getPrice();
+                startActivityForResult(intent,667);
+                
             }
         });
 
@@ -364,5 +492,38 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
             Log.d(LOG_TAG, "onSharedPreferenceChanged: mApplyNightMode changed to:" + mApplyNightMode.toString());
         }
+    }
+
+
+    public void sendBitmapToWhatsApp(String pack, Bitmap bitmap) {
+        Log.d(TAG, "sendBitmapToWhatsApp: got called");
+        PackageManager pm = this.getPackageManager();
+        try {
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED){
+                //permission not granted
+                if(Build.VERSION.SDK_INT >= 23) {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                    shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }
+            }
+            else {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Title", null);
+                Uri imageUri = Uri.parse(path);
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, pack);
+                sendIntent.setType("image/*");
+                startActivity(Intent.createChooser(sendIntent, "Select app"));
+            }
+        } catch (Exception e) {
+            Log.e("Error on sharing", e + " ");
+            Toast.makeText(this, "App not Installed", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

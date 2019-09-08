@@ -30,14 +30,7 @@
     <menu>
 
 
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/settings"
-        android:contentDescription="@string/settings_description"
-        app:showAsAction="ifRoom">
 
-    </item>
 
     <item
         android:id="@+id/share"
@@ -46,13 +39,14 @@
         android:contentDescription="@string/share_description"
         app:showAsAction="ifRoom">
     </item>
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings"
+            android:contentDescription="@string/settings_description"
+            app:showAsAction="ifRoom">
 
-    <item
-        android:id="@+id/buy_pro"
-        android:icon="@drawable/ic_attach_money_black_24dp"
-        android:title="Buy pro version"
-        android:contentDescription="Purchase the pro version of this app"
-        app:showAsAction="ifRoom"/>
+        </item>
 
         </menu>
     </item>

@@ -24,13 +24,12 @@
         android:id="@+id/favorite_content_enter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:maxLength="200"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginBottom="200dp"
-        android:textSize="18sp"
-        android:hint="@string/save_palette_enter_description"
         android:backgroundTint="@color/MidnightBlue"
-        />
+        android:hint="@string/save_palette_enter_description"
+        android:maxLength="200"
+        android:textSize="18sp" />
 </LinearLayout>

@@ -31,7 +31,7 @@
 
     <!-- Shared preferences Text !-->
     <string name="show_color_text_value">Show color value</string>
-    <string name="show_color_text_value_summary">Check, if you want to see the Text Value of the colors</string>
+    <string name="show_color_text_value_summary">Check, to see text value of the colors</string>
     <string name="choose_color_text_type">Pick color text type</string>
     <string name="choose_color_text_type_summary">Pick the format you want the color text displayed in</string>
     <string name="choose_color_text_type_title">Pick color format</string>
@@ -50,4 +50,8 @@
     helps and encourages me. This page is for donations. If you want to buy me a meal or a cup of coffee, I would
     appreciate your kindness very much and it would help me out a lot. Anyway I appreciate every user of Color Harmony
     whether they donate or not.\n<b>Big thanks to you all! </b></string>
+
+    <!-- Ad ids !-->
+    <string name="banner_ad_id">ca-app-pub-6804378884831161/6683730214</string>
+    <string name="interstitial_add_id">ca-app-pub-6804378884831161/4654309159</string>
 </resources>

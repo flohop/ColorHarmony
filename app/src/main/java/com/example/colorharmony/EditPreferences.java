@@ -46,6 +46,8 @@ public class EditPreferences extends Activity {
         SharedPreferences prefs;
         Boolean is_dark = false;
         AppCompatDelegate mDelegate = null;
+        public boolean onAttachSwitchState;
+        public boolean onDetachSwitchState;
         MainActivity listener;
 
         @Override
@@ -73,24 +75,34 @@ public class EditPreferences extends Activity {
         }
 
         @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            onAttachSwitchState = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("theme_switch", false);
+        }
+
+        @Override
         public void onDetach() {
 
-            //first check if theme was changed
-            PackageManager packageManager = getActivity().getPackageManager();
-            Intent intent = packageManager.getLaunchIntentForPackage(getActivity().getPackageName());
-            ComponentName componentName = intent.getComponent();
-            Intent mainIntent = new Intent(getActivity(), MainActivity.class);
-            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            onDetachSwitchState =PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("theme_switch", false);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //ActivityOptions options = ActivityOptions.makeCustomAnimation(getActivity(), R.anim., ); //add animations
-                //getActivity().startActivity(mainIntent, options.toBundle());
-                getActivity().startActivity(mainIntent);
+            if(onDetachSwitchState != onAttachSwitchState) {
+
+                //first check if theme was changed
+                PackageManager packageManager = getActivity().getPackageManager();
+                Intent intent = packageManager.getLaunchIntentForPackage(getActivity().getPackageName());
+                ComponentName componentName = intent.getComponent();
+                Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    //ActivityOptions options = ActivityOptions.makeCustomAnimation(getActivity(), R.anim., ); //add animations
+                    //getActivity().startActivity(mainIntent, options.toBundle());
+                    getActivity().startActivity(mainIntent);
+                } else {
+                    getActivity().startActivity(mainIntent);
+                }
+                System.exit(0);
             }
-            else {
-                getActivity().startActivity(mainIntent);
-            }
-            System.exit(0);
 
             super.onDetach();
         }

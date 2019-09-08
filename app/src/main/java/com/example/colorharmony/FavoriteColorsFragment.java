@@ -589,7 +589,7 @@ public class FavoriteColorsFragment extends Fragment {
         // Set Properties for OK Button
         final Button okBT = favoriteDialog.getButton(AlertDialog.BUTTON_POSITIVE);
         LinearLayout.LayoutParams neutralBtnLP = (LinearLayout.LayoutParams) okBT.getLayoutParams();
-        okBT.setTextColor(getResources().getColor(R.color.Coral, null));
+        okBT.setTextColor(ContextCompat.getColor(getActivity(),R.color.Coral));
         okBT.setLayoutParams(neutralBtnLP);
 
     }
@@ -717,7 +717,7 @@ public class FavoriteColorsFragment extends Fragment {
         // Set Properties for OK Button
         final Button okBT = favoriteDialog.getButton(AlertDialog.BUTTON_POSITIVE);
         LinearLayout.LayoutParams neutralBtnLP = (LinearLayout.LayoutParams) okBT.getLayoutParams();
-        okBT.setTextColor(getResources().getColor(R.color.Coral, null));
+        okBT.setTextColor(ContextCompat.getColor(getActivity(), R.color.Coral));
         okBT.setLayoutParams(neutralBtnLP);
 
     }
@@ -862,7 +862,7 @@ public class FavoriteColorsFragment extends Fragment {
         // Set Properties for OK Button
         final Button okBT = favoriteDialog.getButton(AlertDialog.BUTTON_POSITIVE);
         LinearLayout.LayoutParams neutralBtnLP = (LinearLayout.LayoutParams) okBT.getLayoutParams();
-        okBT.setTextColor(getResources().getColor(R.color.Coral, null));
+        okBT.setTextColor(ContextCompat.getColor(getActivity(),R.color.Coral));
         okBT.setLayoutParams(neutralBtnLP);
 
     }
@@ -910,8 +910,10 @@ public class FavoriteColorsFragment extends Fragment {
             if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
              != PackageManager.PERMISSION_GRANTED){
                 //permission not granted
-                requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
-                shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(Build.VERSION.SDK_INT >= 23) {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                    shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }
             }
             else {
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
