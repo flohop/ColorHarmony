@@ -29,7 +29,8 @@ public class IntroActivity extends AppIntro {
         //select image slide
         SliderPage slidePage2 = new SliderPage();
         slidePage2.setTitle("1. Create or choose and image");
-        slidePage2.setDescription("You will select a color from this image to calculate the harmony from");
+        slidePage2.setDescription("First, in order to get a color from an image, we first need the image! " +
+                "You can either select one from your gallery, or take a new one with your camera.");
         slidePage2.setImageDrawable(R.drawable.start_screen_tour);
         slidePage2.setBgColor(R.color.Chocolate);
 
@@ -39,27 +40,36 @@ public class IntroActivity extends AppIntro {
         SliderPage sliderPage3  = new SliderPage();
         sliderPage3.setTitle("2. Click on your image");
         sliderPage3.setDescription("Clicking on the image sets the base color from which the harmony will be " +
-                "calculated, to change the harmony type, just click on the list and choose one that suits your " +
-                "intentions. Pro tip: By clicking on one of the above colors, you can save the color code to your clipboard." +
+                "calculated. Pro tip: By clicking on one of the above colors, you can save the color code to your clipboard." +
                 "By clicking the top back button you get back to the main page");
         sliderPage3.setImageDrawable(R.drawable.color_pick_basic_tour);
         sliderPage3.setBgColor(R.color.Chocolate);
-
         addSlide( AppIntroFragment.newInstance((sliderPage3)));
+
+        //inserter, show rows
+        SliderPage sliderPage311 = new SliderPage();
+        sliderPage311.setTitle("3. Change up the tactic");
+        sliderPage311.setDescription("By clicking on the List, you can select another tactic, which will" +
+                " be applied immediately, to your chosen color, here to can experiment, to find out, what tactic " +
+                "best suits your interests");
+        sliderPage311.setImageDrawable(R.drawable.color_pick_basic_step2_tour);
+        sliderPage311.setBgColor(R.color.Chocolate);
+        addSlide(AppIntroFragment.newInstance(sliderPage311));
 
         //inserter, show infors
         SliderPage sliderPage31 = new SliderPage();
-        sliderPage31.setTitle("3. Learn the theory");
+        sliderPage31.setTitle("4. Learn the theory");
         sliderPage31.setDescription("By clicking in the i-Icon, you get to learn, what the current tactic" +
                 "is used for, and how to use it");
         sliderPage31.setImageDrawable(R.drawable.color_pick_basic_step3_tour);
         sliderPage31.setBgColor(R.color.Chocolate);
+        addSlide(AppIntroFragment.newInstance(sliderPage31));
 
         // inspect image slide 2, save favorites
         SliderPage sliderPage4 = new SliderPage();
-        sliderPage4.setTitle("4. Save your favorite colors");
+        sliderPage4.setTitle("5. Save your favorite colors");
         sliderPage4.setDescription("Got a color scheme that fits you? Perfect! Now click on the save icon," +
-                "enter the name, and a description, to save your colors for later");
+                "enter a name, and a description to save your colors for later");
         sliderPage4.setImageDrawable(R.drawable.color_pick_basic_step4_tour);
         sliderPage4.setBgColor(R.color.Chocolate);
 
@@ -67,18 +77,18 @@ public class IntroActivity extends AppIntro {
 
         // show favorites
         SliderPage sliderPage5 = new SliderPage();
-        sliderPage5.setTitle("5. Visit your favorites");
+        sliderPage5.setTitle("6. Visit your favorites");
         sliderPage5.setDescription("By clicking on the star icon on the task bar, you can take a look at " +
-                "all your saved color palettes, click on one item of the list, to further inspect it." +
-                " By swiping either left or right, you delete the item from your collection. By clicking on it, you get more details, " +
-                "and the ability, to share your scheme with your friends");
+                "all your saved color palettes, click on one item of the list, to further inspect it and the" +
+                " ability to share it with your friends via WhatsApp." +
+                " By swiping either left or right, you delete the item from your collection.");
         sliderPage5.setImageDrawable(R.drawable.fav_colors_tour);
         sliderPage5.setBgColor(R.color.Chocolate);
         addSlide(AppIntroFragment.newInstance(sliderPage5));
 
         // Settings
         SliderPage sliderPage6 = new SliderPage();
-        sliderPage6.setTitle("6. Change settings");
+        sliderPage6.setTitle("7. Change settings");
         sliderPage6.setDescription("By clicking on the gear wheel on the task bar, you can change the settings." +
                 " Here you can choose if you want the color formats shown and in what format you want them. Additionally," +
                 "for all your nigh owls out there, you can switch on the night theme.");
@@ -88,7 +98,7 @@ public class IntroActivity extends AppIntro {
 
         // Go explore
         SliderPage sliderPage7 = new SliderPage();
-        sliderPage7.setTitle("Explore, create and have fun");
+        sliderPage7.setTitle("Explore, create and have fun!");
         sliderPage7.setDescription("Congratulations, you've finished this quick overview and are now ready to dive " +
                 "in deep into the world of colors!");
         sliderPage7.setImageDrawable(R.mipmap.icon);

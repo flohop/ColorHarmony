@@ -57,8 +57,8 @@
     <string name="switch_description">Switch the theme the app</string>
 
     <!-- Ad Strings !-->
-    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_app_id">ca-app-pub-6804378884831161/4654309159</string>
+    <string name="admob_banner_id">ca-app-pub-6804378884831161/6683730214</string>
 
     <!-- Support me !-->
     <string name="support_header_text">Hi, I\'m Florian. Thanks a lot for using my app, it really

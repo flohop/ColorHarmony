@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     //PayPal infos
-    String clientId = "AVj9-bLME-v2UqSd9fcn5p0HRXgZkUIMtStHOgSikWN9KL2m9g1YWheiDhiAmhPtQgLJI9XD5kpnkJMS";
+    String clientId = "AWng5h1WCGyhoOhURGgE23jsAvyb-La7jgnhkjIbEcuTxaseTXA8mJZyV-ZBqsFl-duirfVUmULQubua";
     String clientSecret = "EFXHmh-OxOsBveyKtTtZ8gCQEh6fFMiIdlwW02-DdWQbI5Yuw6fum-R_E3i_VInlNPTn9gAC0e42UIQC";
     PayPalConfiguration configuration;
 
@@ -132,16 +132,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         //configure google pay
         Wallet.WalletOptions walletOptions =
-                new Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST) // change to ENVIRONMENT_PRODUCTION later
+                new Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_PRODUCTION)
                         .build();
         paymentsClient = Wallet.getPaymentsClient(this, walletOptions);
         
         //setup paypal
-        configuration = new PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+        configuration = new PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
                 .clientId(clientId);
 
         Intent intent = new Intent();
-        intent.setClass(myContext, PayPalService.class);
+        intent.setClass(myContext, PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
         startService(intent);
 
@@ -428,7 +428,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "Clicked:" + objects.get(position).getName(), Toast.LENGTH_SHORT).show();
                 //set paypal payment details
                 PayPalPayment payment = new PayPalPayment(new BigDecimal(objects.get(position).getPrice()),
                         "EUR", "Donate " + objects.get(position).getName() + " to Florian", PayPalPayment.PAYMENT_INTENT_SALE);
