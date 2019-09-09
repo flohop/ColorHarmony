@@ -27,17 +27,16 @@
 
 package com.example.colorharmony.geom;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-
 import com.example.colorharmony.geom.Line2D.LineIntersection;
 import com.example.colorharmony.geom.Line2D.LineIntersection.Type;
 import com.example.colorharmony.geom.mesh.Mesh3D;
 import com.example.colorharmony.geom.mesh.TriangleMesh;
 import com.example.colorharmony.math.MathUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Container type for convex polygons. Implements {@link Shape2D}.

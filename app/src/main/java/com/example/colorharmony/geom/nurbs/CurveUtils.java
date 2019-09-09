@@ -1,9 +1,9 @@
 package com.example.colorharmony.geom.nurbs;
 
-import java.util.LinkedList;
-
 import com.example.colorharmony.geom.Vec4D;
 import com.example.colorharmony.math.MathUtils;
+
+import java.util.LinkedList;
 
 /**
  * @author sg

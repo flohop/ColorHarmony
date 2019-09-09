@@ -1,7 +1,5 @@
 package com.example.colorharmony;
 
-import android.util.Log;
-
 import com.example.colorharmony.color.ColorList;
 import com.example.colorharmony.color.TColor;
 import com.example.colorharmony.theory.AnalogousStrategy;
@@ -22,7 +20,6 @@ public class CalculateHarmonyCalculator {
 
 
         TColor newTColor = TColor.newRGB(r/ 255 , g /255,  b / 255);
-        Log.d("TColor from RGB to HEX", newTColor.toHex());
 
         return newTColor;
     }
@@ -190,9 +187,6 @@ public class CalculateHarmonyCalculator {
     }
 
     public static ArrayList<String> calculateComplementary(TColor src) {
-        Log.d("Old hex", src.toHex());
-
-
 
         SingleComplementStrategy complementaryStrategy = new SingleComplementStrategy();
         ColorList myColorList = complementaryStrategy.createListFromColor(src);
@@ -200,21 +194,12 @@ public class CalculateHarmonyCalculator {
         ArrayList<String> masterArray = new ArrayList<>();
 
         TColor Tcolor1 = myColorList.get(1); //get first complementary color
-        Log.d("My TColor1: ", Tcolor1.toString());
-       /* TColor Tcolor2 = myColorList.get(1); // get second complementary color
-        TColor Tcolor3 = myColorList.get(2); // get  third complementary color
-        TColor Tcolor4 = myColorList.get(3); // get fourth complementary color*/
+
 
         String myHex1 = Tcolor1.toHex();
-        Log.d("Created HEX", myHex1);
-   /*     String myHex2 = Tcolor2.toHex();
-        String myHex3 = Tcolor3.toHex();
-        String myHex4 = Tcolor4.toHex();
-*/
+
         masterArray.add(0, myHex1);
-    /*    masterArray.add(1, myHex2);
-        masterArray.add(2, myHex3);
-        masterArray.add(3, myHex4);*/
+
 
         return masterArray;
     }

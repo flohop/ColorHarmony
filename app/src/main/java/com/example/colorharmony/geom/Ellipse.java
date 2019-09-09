@@ -27,10 +27,10 @@
 
 package com.example.colorharmony.geom;
 
-import java.util.List;
-
 import com.example.colorharmony.datatypes.BiasedFloatRange;
 import com.example.colorharmony.math.MathUtils;
+
+import java.util.List;
 
 /**
  * This class defines a 2D ellipse and provides several utility methods for it.

@@ -20,13 +20,10 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,15 +41,12 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
-
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -61,8 +54,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 
 public class FavoriteColorsFragment extends Fragment {
@@ -137,18 +128,11 @@ public class FavoriteColorsFragment extends Fragment {
                 try {
                     Toast.makeText(getContext(), "Clicked long on: " + loadedFavColors.get(position).getTitle(), Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
-                    Log.d("Error", "onLongClick:  " + e.getStackTrace());
                 }
             }
         }));
         myDatabase = SQLiteHelper.getInstance(getActivity()).getWritableDatabase();
 
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                .detectLeakedClosableObjects()
-                .penaltyLog()
-                .penaltyDeath()
-                .build());
 
         enableSwipe();
         return rootView;
@@ -174,7 +158,6 @@ public class FavoriteColorsFragment extends Fragment {
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
-        Log.d("STOPPED", " Fragment got stopped");
         if (current != null) {
             current.close();
         }
@@ -210,7 +193,6 @@ public class FavoriteColorsFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
                             // undo is selected, restore the deleted item
-                            Log.d("Size measure:", "Array size: " + loadedFavColors.size() + "| Position:" + position);
 
                             switch (loadedFavColors.get(position).getHarmonyType()) {
                                 case "Complementary":
@@ -319,7 +301,6 @@ public class FavoriteColorsFragment extends Fragment {
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDataUpdated(UpdatedEvent event) {
-        Log.d("CURSOR", " got updated!!!");
 
         current.close();
         adapter.swapCursor(event.getUpdatedCursor());
@@ -331,7 +312,6 @@ public class FavoriteColorsFragment extends Fragment {
     @SuppressWarnings("unused")
     @Subscribe(threadMode =  ThreadMode.MAIN)
     public void onRowChanged(FavoritesUpdatedEvent event){
-        Log.d(TAG, "onRowChanged: was called from the EventBus");
         current = event.getCursor();
         adapter.swapCursor(current);
 
@@ -347,7 +327,6 @@ public class FavoriteColorsFragment extends Fragment {
         FavoriteColor myColor;
         recyclerView.swapAdapter(adapter, false);
         String tDescription = "not given";
-        Log.d("onFavoritesLoaded", " got called");
         loadedFavColors = new ArrayList<>();
 
 
@@ -383,7 +362,6 @@ public class FavoriteColorsFragment extends Fragment {
                     myColor = null;
             }
             loadedFavColors.add(myColor);
-            Log.d("Favorite colors", "added new item:" + myColor.toString());
 
         }
     }
@@ -414,7 +392,6 @@ public class FavoriteColorsFragment extends Fragment {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
         } catch (NullPointerException e) {
-            Log.d("FavoriteColorFragment", "getBitmapFromVectorDrawable error: " + e.getStackTrace());
         }
 
         return bitmap;
@@ -577,7 +554,6 @@ public class FavoriteColorsFragment extends Fragment {
                 loadedFavColors.set(position, theColor);
 
 
-                Log.d("Updated", "updated values with SQL");
 
             }
         });
@@ -703,9 +679,6 @@ public class FavoriteColorsFragment extends Fragment {
                 theColor.setMdescription(favorite_description.getText().toString());
 
                 loadedFavColors.set(position, theColor);
-
-                Log.d("Updated", "updated values with SQL");
-
 
             }
         });
@@ -850,8 +823,6 @@ public class FavoriteColorsFragment extends Fragment {
 
                 loadedFavColors.set(position, theColor);
 
-                Log.d("Updated", "updated values with SQL");
-
             }
         });
 
@@ -904,7 +875,6 @@ public class FavoriteColorsFragment extends Fragment {
     }
 
     public void sendBitmapToWhatsApp(String pack, Bitmap bitmap) {
-        Log.d(TAG, "sendBitmapToWhatsApp: got called");
         PackageManager pm = getActivity().getPackageManager();
         try {
             if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -929,7 +899,6 @@ public class FavoriteColorsFragment extends Fragment {
                 startActivity(Intent.createChooser(sendIntent, "Select app"));
             }
         } catch (Exception e) {
-            Log.e("Error on sharing", e + " ");
             Toast.makeText(getActivity(), "App not Installed", Toast.LENGTH_SHORT).show();
         }
 

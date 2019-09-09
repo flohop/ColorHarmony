@@ -27,12 +27,12 @@
 
 package com.example.colorharmony.datatypes;
 
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
-
-import com.example.colorharmony.math.MathUtils;
 
 public class GenericSet<T> implements Iterable<T> {
 

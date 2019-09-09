@@ -27,14 +27,14 @@
 
 package com.example.colorharmony.color;
 
+import com.example.colorharmony.math.InterpolateStrategy;
+import com.example.colorharmony.math.LinearInterpolation;
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
-
-import com.example.colorharmony.math.InterpolateStrategy;
-import com.example.colorharmony.math.LinearInterpolation;
-import com.example.colorharmony.math.MathUtils;
 
 /**
  * This class can be used to calculate multi-color gradients with colors

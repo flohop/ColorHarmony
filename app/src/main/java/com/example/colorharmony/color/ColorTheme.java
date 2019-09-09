@@ -26,10 +26,10 @@
 
 package com.example.colorharmony.color;
 
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import com.example.colorharmony.math.MathUtils;
 
 /**
  * A ColorTheme is a weighted collection of {@link ColorRange}s used to define

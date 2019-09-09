@@ -33,9 +33,6 @@ import com.example.colorharmony.math.ScaleMap;
 
 import java.util.Random;
 
-import static com.example.colorharmony.geom.Vec2D.Axis.X;
-import static com.example.colorharmony.geom.Vec2D.Axis.Y;
-
 
 /**
  * Comprehensive 2D vector class with additional basic intersection and

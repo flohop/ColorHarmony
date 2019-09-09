@@ -21,12 +21,27 @@
     <string name="save_palette_enter_description">Enter description</string>
 
     <!-- Different tactics explanation !-->
-    <string name="complementary_info">This is what complementary is used for</string>
-    <string name="monochrome_info">This is what monochrome is used for</string>
-    <string name="analogous_info">This is what analogous is used for</string>
-    <string name="split_complementary_info">This is what split complementary is used for</string>
-    <string name="triadic_info">This is what triadic is used for</string>
-    <string name="tetradic_info">This is what tetradic is used for</string>
+    <string name="complementary_info">Complementary colors are two colors opposite to each other on
+        the color wheel. These create a high contrast, so it\'s a good idea to use it, to make
+        something stand out. For example, use one color as the background and the other for accents.
+        Used together these colors appear brighter and more prominent.</string>
+    <string name="monochrome_info">Monochromatic colors are the same base color, with different tones
+        and tints. They provide a subtle and minimalistic looking color combination.
+        Monochromatic colors are easy to apply to design and project a harmonious look.</string>
+    <string name="analogous_info">Analogous colors are three color side by side on the color wheel.
+        This combination, though very versatile can look overwhelming, used wrong. To balance this
+        out, it’s a good idea to choose one dominant color, and use the other two as accents</string>
+    <string name="split_complementary_info">Split complementary colors use one color and match it
+        up with two colors adjacent to its complementary color. This tactic is good for
+        beginners because it’s difficult to mess it up. The base color should dominate,
+        supported by the two other colors for highlights and accents.</string>
+    <string name="triadic_info">Triadic colors are three, evenly spaced colors on the color wheel.
+        They provide a high-contrast, but more balanced look than complementary colors.
+        It’s a good idea, to choose one dominant color and let the other two function as supporting colors.</string>
+    <string name="tetradic_info">Tetradic colors are four colors, evenly spaced colors on the color wheel.
+        You can either use it as a double complementary set, or choose one dominating color and let
+        the other three support it. This tactic is the hardest to pull off, because of the difficulty
+        in balancing the colors out.</string>
 
 
     <!-- Shared preferences Text !-->

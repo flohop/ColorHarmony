@@ -4,15 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Process;
-import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
@@ -51,7 +48,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE saved_colors(_id INTEGER PRIMARY KEY AUTOINCREMENT ,name TEXT, description TEXT, type TEXT NOT NULL, hex1 TEXT NOT NULL, hex2 TEXT NOT NULL, hex3 TEXT, hex4 TEXT," +
                 "favorite Integer);");
-        Log.d("DATABASE", "Created SQLite Database");
         ContentValues cv = new ContentValues();
 
         cv.put(TITLE, "Classic Tetradic");
@@ -64,7 +60,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         cv.put(FAVORITE, 1);
         db.insert(TABLE, TITLE, cv);
 
-        Log.d("DATABASE", "Inserted values in the database");
     }
 
     @Override
@@ -106,21 +101,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
         @Override
         public void run(){
-            Log.d("BACKGROUND", "run() is being executed");
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
 
             SQLiteDatabase database = getReadableDatabase();
             if(!database.isOpen()){
-                Log.d("BACKGROUND",  "Db is classed");
             }
             c = database.rawQuery("SELECT* FROM saved_colors", null);
-            Log.d("BACKGROUND", "Got readable database cursor");
             if(c.getCount() > 0) {
                 EventBus.getDefault().post(new FavoritesLoadedEvent(c));
             }
             else{
-                Log.d("BACKGROUND", "no elements where found");
             }
         }
         public Cursor getEmptyCursor() {
@@ -235,7 +226,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             getWritableDatabase().update(TABLE, cv,"_id=" + this.id, null);
             Cursor updatedCursor = getReadableDatabase().rawQuery("SELECT* FROM saved_colors", null);
             EventBus.getDefault().post(new FavoritesUpdatedEvent(this.position, updatedCursor));
-            Log.d("onUpdateFavorites Num5", " called the EventBus");
         }
     }
 
@@ -251,7 +241,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             //finished
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             getWritableDatabase().delete("saved_colors", "_id" + "=" + this.id, null);
-            Log.d("DELETING ITEM", "Item with id: " + this.id + " got deleted");
             Cursor updatedCursor = getReadableDatabase().rawQuery("SELECT* FROM saved_colors", null);
            /* updatedCursor.moveToFirst();
             ArrayList<FavoriteColor> newFavColors = new ArrayList<>();

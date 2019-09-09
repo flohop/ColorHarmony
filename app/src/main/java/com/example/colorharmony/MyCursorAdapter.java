@@ -1,33 +1,17 @@
 package com.example.colorharmony;
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Color;
-import android.service.voice.AlwaysOnHotwordDetector;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.RemoteViews;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.ViewHolder>{
 
@@ -62,8 +46,6 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d("onCreateViewHolder", " got called");
-
         itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.favorites_row, parent, false);
         ViewHolder vh = new ViewHolder(itemView);
@@ -74,7 +56,6 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
     @Override
     public void onBindViewHolder(MyCursorAdapter.ViewHolder viewHolder, Cursor cursor) {
 
-        Log.d("onBindViewHolder",  "got called");
         //get the values from the cursor
         String title = cursor.getString(cursor.getColumnIndex(SQLiteHelper.TITLE));
         int id = (int)cursor.getLong(cursor.getColumnIndex(SQLiteHelper.ID));
@@ -115,8 +96,8 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
 
             //set the colors(handle no color available later)
 
-            viewColor1.setBackgroundColor(Color.parseColor("#" + hex1));
-            viewColor2.setBackgroundColor(Color.parseColor("#" + hex2));
+            viewColor1.setBackgroundColor(Color.parseColor("#" + hex2));
+            viewColor2.setBackgroundColor(Color.parseColor("#" + hex1));
             try {
                 viewColor3.setVisibility(View.VISIBLE);
                 viewColor3.setBackgroundColor(Color.parseColor("#" + hex3));
@@ -131,7 +112,6 @@ public class MyCursorAdapter extends CursorRecyclerViewAdapter<MyCursorAdapter.V
             }
         }
         catch(NullPointerException e){
-            Log.d(TAG, "onBindViewHolder: " + e.getStackTrace());
         }
 
     }

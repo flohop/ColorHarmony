@@ -19,11 +19,11 @@
  */
 package com.example.colorharmony.geom.nurbs;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.example.colorharmony.geom.Vec3D;
 import com.example.colorharmony.geom.Vec4D;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Convenience class to create dynamically NurbsCurves.

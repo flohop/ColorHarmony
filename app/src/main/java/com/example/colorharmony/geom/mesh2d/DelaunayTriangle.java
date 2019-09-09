@@ -20,12 +20,12 @@ package com.example.colorharmony.geom.mesh2d;
  * DEALINGS IN THE SOFTWARE.
  */
 
+import com.example.colorharmony.datatypes.ArraySet;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import com.example.colorharmony.datatypes.ArraySet;
 
 /**
  * A DelaunayTriangle is an immutable Set of exactly three Pnts.

@@ -27,14 +27,14 @@
 
 package com.example.colorharmony.geom.mesh;
 
+import com.example.colorharmony.geom.Vec3D;
+import com.example.colorharmony.util.FileUtils;
+
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.example.colorharmony.geom.Vec3D;
-import com.example.colorharmony.util.FileUtils;
 
 /**
  * Utility class to read binary STL files and turn them into

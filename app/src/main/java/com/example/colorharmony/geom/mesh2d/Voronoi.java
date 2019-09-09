@@ -27,15 +27,15 @@
 
 package com.example.colorharmony.geom.mesh2d;
 
+import com.example.colorharmony.geom.Polygon2D;
+import com.example.colorharmony.geom.Triangle2D;
+import com.example.colorharmony.geom.Vec2D;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.example.colorharmony.geom.Polygon2D;
-import com.example.colorharmony.geom.Triangle2D;
-import com.example.colorharmony.geom.Vec2D;
 
 public class Voronoi {
 

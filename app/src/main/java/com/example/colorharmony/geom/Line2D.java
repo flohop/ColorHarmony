@@ -27,12 +27,10 @@
 
 package com.example.colorharmony.geom;
 
+import com.example.colorharmony.geom.Line2D.LineIntersection.Type;
+
 import java.util.ArrayList;
 import java.util.List;
-
-
-
-import com.example.colorharmony.geom.Line2D.LineIntersection.Type;
 
 public class Line2D {
 

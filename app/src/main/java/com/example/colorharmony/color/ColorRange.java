@@ -26,12 +26,12 @@
 
 package com.example.colorharmony.color;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-
-import com.example.colorharmony.math.MathUtils;
 import com.example.colorharmony.datatypes.FloatRange;
 import com.example.colorharmony.datatypes.GenericSet;
+import com.example.colorharmony.math.MathUtils;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
 
 /**
  * A ColorRange is a set of contraints to specify possible ranges for hue,

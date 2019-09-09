@@ -27,13 +27,11 @@
 
 package com.example.colorharmony.geom;
 
-import java.util.Random;
-
-
-
 import com.example.colorharmony.math.InterpolateStrategy;
 import com.example.colorharmony.math.MathUtils;
 import com.example.colorharmony.math.ScaleMap;
+
+import java.util.Random;
 
 /**
  * Comprehensive 3D vector class with additional basic intersection and

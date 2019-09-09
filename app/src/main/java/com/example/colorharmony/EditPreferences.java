@@ -1,7 +1,6 @@
 package com.example.colorharmony;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -14,17 +13,9 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.IntentCompat;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.jakewharton.processphoenix.ProcessPhoenix;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 public class EditPreferences extends Activity {
@@ -152,15 +143,11 @@ public class EditPreferences extends Activity {
                             //kill the application
                             System.exit(0);
                         } else {
-                            Log.e(TAG, "Was not able to restart application, mStartActivity null");
                         }
                     } else {
-                        Log.e(TAG, "Was not able to restart application, PM null");
                     }
-                    Log.e(TAG, "Was not able to restart application, Context null");
                 }
             } catch (Exception ex) {
-                Log.e(TAG, "Was not able to restart application");
             }
         }
     }

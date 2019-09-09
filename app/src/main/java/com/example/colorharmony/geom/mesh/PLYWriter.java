@@ -26,15 +26,15 @@
  */
 package com.example.colorharmony.geom.mesh;
 
+import com.example.colorharmony.geom.Vec3D;
+import com.example.colorharmony.util.FileUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.example.colorharmony.geom.Vec3D;
-import com.example.colorharmony.util.FileUtils;
 
 /**
  * Standard Polygon Format (PLY) mesh exporter for toxiclibs

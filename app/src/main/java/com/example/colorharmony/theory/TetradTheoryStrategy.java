@@ -27,11 +27,6 @@
 package com.example.colorharmony.theory;
 
 import com.example.colorharmony.color.ColorList;
-
-import com.example.colorharmony.color.ReadonlyTColor;
-
-
-import com.example.colorharmony.color.ReadonlyTColor;
 import com.example.colorharmony.color.TColor;
 
 

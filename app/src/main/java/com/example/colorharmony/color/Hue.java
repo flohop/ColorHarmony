@@ -26,10 +26,10 @@
 
 package com.example.colorharmony.color;
 
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.example.colorharmony.math.MathUtils;
 
 /**
  * This class defines color hues and allows them to be access by name. There are

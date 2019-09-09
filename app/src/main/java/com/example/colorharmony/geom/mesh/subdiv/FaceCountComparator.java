@@ -27,9 +27,9 @@
 
 package com.example.colorharmony.geom.mesh.subdiv;
 
-import java.util.Comparator;
-
 import com.example.colorharmony.geom.mesh.WingedEdge;
+
+import java.util.Comparator;
 
 /**
  * Comparator used by {@link SubdivisionStrategy#getEdgeOrdering()} to define

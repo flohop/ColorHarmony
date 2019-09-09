@@ -27,10 +27,10 @@
 
 package com.example.colorharmony.datatypes;
 
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.colorharmony.math.MathUtils;
 
 /**
  * This class provides a generic random-weight distribution of arbitary objects.

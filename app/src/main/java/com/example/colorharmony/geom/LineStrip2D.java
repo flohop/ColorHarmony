@@ -27,15 +27,14 @@
 
 package com.example.colorharmony.geom;
 
+import com.example.colorharmony.geom.Line2D.LineIntersection;
+import com.example.colorharmony.geom.Line2D.LineIntersection.Type;
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-
-import com.example.colorharmony.geom.Line2D.LineIntersection;
-import com.example.colorharmony.geom.Line2D.LineIntersection.Type;
-import com.example.colorharmony.math.MathUtils;
 
 public class LineStrip2D implements Iterable<Vec2D> {
 

@@ -20,6 +20,8 @@ package com.example.colorharmony.geom.mesh2d;
  * DEALINGS IN THE SOFTWARE.
  */
 
+import com.example.colorharmony.datatypes.UndirectedGraph;
+
 import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,8 +30,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-
-import com.example.colorharmony.datatypes.UndirectedGraph;
 
 
 /**

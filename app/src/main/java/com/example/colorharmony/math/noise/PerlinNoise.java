@@ -27,9 +27,9 @@
 
 package com.example.colorharmony.math.noise;
 
-import java.util.Random;
-
 import com.example.colorharmony.math.SinCosLUT;
+
+import java.util.Random;
 
 /**
  * PERLIN NOISE taken from the java port I originally did for PApplet, based on

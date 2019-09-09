@@ -1,8 +1,8 @@
 package com.example.colorharmony.geom.mesh.subdiv;
 
-import java.util.List;
-
 import com.example.colorharmony.geom.Vec3D;
+
+import java.util.List;
 
 public class MidpointSubdiv implements NewSubdivStrategy {
 

@@ -27,12 +27,12 @@
 
 package com.example.colorharmony.color;
 
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import com.example.colorharmony.math.MathUtils;
 
 /**
  * This class can be used to compute the distribution frequency of colors within

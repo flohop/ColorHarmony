@@ -8,10 +8,12 @@
         android:id="@+id/alert_text_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:textSize="24sp"
         android:layout_gravity="center"
         android:text=" insert Text"
-        android:textStyle="bold"
-        android:textColor="@color/CadetBlue"/>
+        android:textColor="@color/CadetBlue"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/alert_text_image"
@@ -27,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:autoSizeTextType="uniform"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:text=" insert explanation"/>

@@ -27,13 +27,11 @@
 
 package com.example.colorharmony.geom;
 
-import java.util.List;
-
-
-
 import com.example.colorharmony.geom.mesh.Mesh3D;
 import com.example.colorharmony.geom.mesh.TriangleMesh;
 import com.example.colorharmony.math.MathUtils;
+
+import java.util.List;
 
 /**
  * Axis-aligned bounding box with basic intersection features for Ray, AABB and

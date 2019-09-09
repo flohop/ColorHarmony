@@ -1,6 +1,5 @@
 package com.example.colorharmony;
 
-import android.graphics.drawable.Drawable;
 
 public class TacticItem {
 
@@ -8,12 +7,14 @@ public class TacticItem {
     private int mTacticImage;
     private String mTacticInfoText;
     private int mAlertImage;
+    private int mShowImageResource;
 
-    public TacticItem(String tacticName, int tacticImage, String infoText) {
+    public TacticItem(String tacticName, int tacticImage, String infoText, int showImageResource) {
 
         mTacticName = tacticName;
         mTacticImage = tacticImage;
         mTacticInfoText = infoText;
+        mShowImageResource = showImageResource;
     }
 
     public String getTacticName(){
@@ -22,6 +23,10 @@ public class TacticItem {
 
     public int getTacticImage() {
         return mTacticImage;
+    }
+
+    public int getShowImageResource(){
+        return mShowImageResource;
     }
 
     public int getAlertImageCode() {

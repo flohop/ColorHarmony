@@ -27,11 +27,11 @@
 
 package com.example.colorharmony.geom.mesh.subdiv;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.colorharmony.geom.Vec3D;
 import com.example.colorharmony.geom.mesh.WingedEdge;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This subdivision strategy splits an edge in two equal halves at its mid

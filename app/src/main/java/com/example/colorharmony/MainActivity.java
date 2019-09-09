@@ -1,52 +1,39 @@
 package com.example.colorharmony;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.view.menu.MenuPopupHelper;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
-import android.animation.Animator;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.Window;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -60,8 +47,6 @@ import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
-import org.json.JSONException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -69,13 +54,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 import es.dmoral.toasty.Toasty;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -118,6 +99,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         setContentView(R.layout.activity_main);
 
         myContext = this;
+
+        //show tutorial of app was never opened
+        String tutorialKey ="tut_key";
+        Boolean firstTime = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(tutorialKey, true);
+        if(firstTime) {
+            Toast.makeText(myContext, "First time user", Toast.LENGTH_SHORT).show();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(tutorialKey, false).apply();
+            startActivity(new Intent(this, IntroActivity.class));
+        }
+        
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(prefs.getBoolean("theme_switch", false) == true){
@@ -166,13 +157,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             cameraImageButton.setBackgroundResource(R.drawable.round_button_night);
             galleryImageButton.setBackgroundResource(R.drawable.round_button_night);
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.dark_theme_blue)));
-
-            Log.d(LOG_TAG, "onCreate: button is blue!!");
         }
         else{
             cameraImageButton.setBackgroundResource(R.drawable.round_button_day);
             galleryImageButton.setBackgroundResource(R.drawable.round_button_day);
-            Log.d(LOG_TAG, "onCreate: button is green!!");
         }
 
         try {
@@ -246,6 +234,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 (PackageManager.PERMISSION_GRANTED));
     }
 
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permission,
                                            int[] grantResults) {
@@ -259,9 +249,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
 
         if(hasPermission(READ_EXTERNAL_STORAGE )&& requestCode == REQUEST_IMAGE_GALLERY) {
-
-            Log.d(LOG_TAG, "I have the permission");
-
            openGallery();
 
         }
@@ -270,18 +257,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onActivityResult(int request_code, int result_code, Intent data){
 
-        Log.d(LOG_TAG, "Got a result from an intent");
-
         if((request_code ==REQUEST_IMAGE_CAPTURE) && (result_code==RESULT_OK)) {
 
             sendTemporaryFile(tempProfileImageFile);
         }
 
         else if((request_code == RESULT_LOAD_IMAGE) && (result_code==RESULT_OK)) {
-
-            Log.d(LOG_TAG, "Hello world, i got a positive result");
-
-            Log.d(LOG_TAG, data.getData().toString());
             Uri selectedImage = data.getData();
 
             Intent startPickerIntent = new Intent(this, ColorPickerActivity.class);
@@ -298,21 +279,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 sender.sendMail("Got a donation", "You received a donation from your app Color Harmony for " + donation_amount + "€",
                         "armorgames555@googlemail.com", "hoppe.florian02@gmail.com");
                 Toast.makeText(myContext, "Send mail", Toast.LENGTH_LONG).show();
-                Log.d(LOG_TAG, "onActivityResult: send email succesfully");
             }
 
             catch (Exception e){
-                Log.e("Send mail", e.getMessage(), e);
             }
             if(confirmation != null){
-                try{
 
-                    Log.i("paymentExample", confirmation.toJSONObject().toString(4));
-                }
-                
-                catch ( JSONException e) {
-                    Log.e("paymentExample", "an extremely unlikely failure occurred", e);
-                }
             }
         }
         else if(result_code == Activity.RESULT_CANCELED && request_code == 667){
@@ -323,7 +295,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
 
         if(result_code == RESULT_OK) {
-            Log.d(LOG_TAG, (Integer.toString(request_code)));
         }
     }
 
@@ -421,7 +392,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             startActivityForResult(open_gallery_intent, RESULT_LOAD_IMAGE);
         }
         else{
-            Log.d(LOG_TAG, "Oh no");
         }
     }
 
@@ -490,13 +460,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equals("theme_switch")) {
 
-            Log.d(LOG_TAG, "onSharedPreferenceChanged: mApplyNightMode changed to:" + mApplyNightMode.toString());
         }
     }
 
 
     public void sendBitmapToWhatsApp(String pack, Bitmap bitmap) {
-        Log.d(TAG, "sendBitmapToWhatsApp: got called");
         PackageManager pm = this.getPackageManager();
         try {
             if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -521,7 +489,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 startActivity(Intent.createChooser(sendIntent, "Select app"));
             }
         } catch (Exception e) {
-            Log.e("Error on sharing", e + " ");
             Toast.makeText(this, "App not Installed", Toast.LENGTH_SHORT).show();
         }
 

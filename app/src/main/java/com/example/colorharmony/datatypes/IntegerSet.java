@@ -27,9 +27,9 @@
 
 package com.example.colorharmony.datatypes;
 
-import java.util.Random;
-
 import com.example.colorharmony.math.MathUtils;
+
+import java.util.Random;
 
 public class IntegerSet {
 

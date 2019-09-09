@@ -27,14 +27,6 @@
 
 package com.example.colorharmony.geom.mesh;
 
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.example.colorharmony.geom.AABB;
 import com.example.colorharmony.geom.Intersector3D;
 import com.example.colorharmony.geom.IsectData3D;
@@ -48,6 +40,14 @@ import com.example.colorharmony.geom.TriangleIntersector;
 import com.example.colorharmony.geom.Vec2D;
 import com.example.colorharmony.geom.Vec3D;
 import com.example.colorharmony.math.MathUtils;
+
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An extensible class to dynamically build, manipulate & export triangle

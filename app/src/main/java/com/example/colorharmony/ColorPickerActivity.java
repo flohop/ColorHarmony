@@ -1,35 +1,26 @@
 package com.example.colorharmony;
 
-import android.animation.Animator;
 import android.app.Activity;
-import android.app.ActivityOptions;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,13 +31,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.example.colorharmony.color.TColor;
-import com.example.colorharmony.CalculateHarmonyCalculator;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
@@ -266,11 +253,9 @@ public class ColorPickerActivity  extends Activity {
                 imageView.setImageBitmap(imageBitmap);
             }
             catch(FileNotFoundException ext){
-                Log.d(LOG_TAG, "File not found exception");
             }
 
             catch (IOException ioe){
-                Log.d(LOG_TAG, "Error loading the image");
             }
 
         }
@@ -285,7 +270,6 @@ public class ColorPickerActivity  extends Activity {
             Intent returnIntent = new Intent(this, MainActivity.class);
             startActivity(returnIntent);
         }
-        Log.d(LOG_TAG, "onCreate: averageColor:" + averageColor);
 
         constraintLayout.setBackgroundColor(averageColor);
 
@@ -380,30 +364,18 @@ public class ColorPickerActivity  extends Activity {
                         hsv = new float[3];
 
                         Color.RGBToHSV(r, g, b, hsv);
-                        Log.d("MY hsv", "h:" + hsv[0] + " s " + hsv[1] + " v:" + hsv[2]);
 
-                        //getting Hex values
-
-                        //set background color of view
-                        //colorView.setBackgroundColor(Color.rgb(r, g, b));
                     } catch (IllegalArgumentException ex) {
-                        Log.d(LOG_TAG, "IllegalArgumentException appeared");
                     }
 
-                    Log.d(LOG_TAG, "R:" + r + ", G:" + g + ", B:" + b);
 
                     //set to returned harmonic color
-                    Log.d(LOG_TAG, "Created new TColor on new values: " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
                     myTColor = CalculateHarmonyCalculator.TColorFromRGB((float)r, (float)g, (float)b);
                     currentHexColor = myTColor.toHex();
 
                     colorView.setBackgroundColor(Color.parseColor("#" + myTColor.toHex()));
                     setHarmonicColors(myTColor);
                     setHarmonyText();
-
-
-                    Log.d(LOG_TAG, "NO EXCEPTION OCCURED");
-
 
                 }
                 return true;
@@ -413,7 +385,6 @@ public class ColorPickerActivity  extends Activity {
         tacticInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(LOG_TAG, "Current tactic: " + currentTacticItem.getTacticName());
                 openDialog();
             }
         });
@@ -457,7 +428,6 @@ public class ColorPickerActivity  extends Activity {
 
         }
 
-        Log.d(LOG_TAG, "Bitmap returned null");
         return null;
     }
 
@@ -499,22 +469,22 @@ public class ColorPickerActivity  extends Activity {
 
     private void initList() {
         mTacticList = new ArrayList<>();
-        mTacticList.add(0,new TacticItem("Complementary", R.drawable.ic_complementary_harmony, getResources().getString(R.string.complementary_info)));
-        mTacticList.get(0).setAlertImageCode(R.drawable.color_wheel);
+        mTacticList.add(0,new TacticItem("Complementary", R.drawable.ic_complementary_harmony, getResources().getString(R.string.complementary_info), R.drawable.complementary_show));
+        mTacticList.get(0).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(1,new TacticItem("Monochromatic", R.drawable.ic_monochromatic_harmony, getResources().getString(R.string.monochrome_info)));
+        mTacticList.add(1,new TacticItem("Monochromatic", R.drawable.ic_monochromatic_harmony, getResources().getString(R.string.monochrome_info), R.drawable.monochromatic_show));
         mTacticList.get(1).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(2,new TacticItem("Analogous", R.drawable.ic_analogous_harmony, getResources().getString(R.string.analogous_info)));
+        mTacticList.add(2,new TacticItem("Analogous", R.drawable.ic_analogous_harmony, getResources().getString(R.string.analogous_info), R.drawable.analogous_show));
         mTacticList.get(2).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(3,new TacticItem("Split Complementary", R.drawable.ic_split_complementary_harmony, getResources().getString(R.string.split_complementary_info)));
+        mTacticList.add(3,new TacticItem("Split Complementary", R.drawable.ic_split_complementary_harmony, getResources().getString(R.string.split_complementary_info), R.drawable.split_complementary_show));
         mTacticList.get(3).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(4,new TacticItem("Triadic", R.drawable.ic_triadic_harmony, getResources().getString(R.string.triadic_info)));
+        mTacticList.add(4,new TacticItem("Triadic", R.drawable.ic_triadic_harmony, getResources().getString(R.string.triadic_info), R.drawable.triadic_show));
         mTacticList.get(4).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(5,new TacticItem("Tetradic", R.drawable.ic_tetradic_harmony, getResources().getString(R.string.tetradic_info)));
+        mTacticList.add(5,new TacticItem("Tetradic", R.drawable.ic_tetradic_harmony, getResources().getString(R.string.tetradic_info), R.drawable.tetradic_show));
         mTacticList.get(5).setAlertImageCode(R.raw.basic_color_wheel);
     }
 
@@ -657,9 +627,10 @@ public class ColorPickerActivity  extends Activity {
                 if(showText) {
                     colorTextView3.setVisibility(View.VISIBLE);
                 }
+
                 colorView3.setVisibility(View.VISIBLE);
                 colorView3.setBackgroundColor(Color.parseColor("#" + hexArray.get(1)));
-                colorTextView3.setVisibility(View.VISIBLE);
+
             }
             if(colorView4.getVisibility() == View.VISIBLE) {
                 colorView4.setBackgroundColor(Color.parseColor("#" + hexArray.get(2)));
@@ -780,7 +751,7 @@ public class ColorPickerActivity  extends Activity {
                                     .updateFavorites(myHeader, myContent, myTactic, hex1,hex2, hex3);
                         }
                         catch (IndexOutOfBoundsException e){
-                            Log.d("Why", "are you here");
+
                         }
                     break;
                     case "Monochromatic":
@@ -791,12 +762,10 @@ public class ColorPickerActivity  extends Activity {
                         try {
                             hex3 = hexArray.get(1);
                             hex4 = hexArray.get(2);
-                            Log.d("My Tetradic VALUES", myHeader + "|" + myContent + "|" + myTactic + "|" + hex1 + "|" + hex2 + "|" + hex3 + "|" + hex4);
                             SQLiteHelper.getInstance(ColorPickerActivity.this)
                                     .updateFavorites(myHeader, myContent, myTactic, hex1, hex2, hex3, hex4);
                         }
                         catch(IndexOutOfBoundsException e){
-                            Log.d("Why", "are you here 2");
                         }
                         break;
                 }
@@ -827,9 +796,11 @@ public class ColorPickerActivity  extends Activity {
         ImageView alertImage = alertView.findViewById(R.id.alert_text_image);
         TextView alertContent = alertView.findViewById(R.id.alert_text_dialog);
 
+        alertHeader.setPaintFlags(alertHeader.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         //set the content
         alertHeader.setText(currentTacticItem.getTacticName());
-        alertImage.setImageResource(currentTacticItem.getTacticImage());
+        alertImage.setImageResource(currentTacticItem.getShowImageResource());
         alertContent.setText(currentTacticItem.getInfoText());
 
         alertDialog.setView(alertView);

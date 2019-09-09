@@ -2,10 +2,6 @@ package com.example.colorharmony;
 
 import android.database.Cursor;
 
-import androidx.annotation.Nullable;
-
-import java.util.ArrayList;
-
 public class UpdatedEvent {
     private Cursor updatedCursor;
 

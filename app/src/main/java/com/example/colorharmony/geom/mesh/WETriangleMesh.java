@@ -27,14 +27,6 @@
 
 package com.example.colorharmony.geom.mesh;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.logging.Level;
-
 import com.example.colorharmony.geom.AABB;
 import com.example.colorharmony.geom.Line3D;
 import com.example.colorharmony.geom.Matrix4x4;
@@ -44,6 +36,14 @@ import com.example.colorharmony.geom.Vec2D;
 import com.example.colorharmony.geom.Vec3D;
 import com.example.colorharmony.geom.mesh.subdiv.MidpointSubdivision;
 import com.example.colorharmony.geom.mesh.subdiv.SubdivisionStrategy;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.logging.Level;
 
 /**
  * A class to dynamically build, manipulate & export triangle meshes. Meshes are

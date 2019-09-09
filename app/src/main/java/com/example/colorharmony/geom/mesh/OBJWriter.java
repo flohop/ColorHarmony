@@ -27,12 +27,12 @@
 
 package com.example.colorharmony.geom.mesh;
 
+import com.example.colorharmony.geom.Vec3D;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-
-import com.example.colorharmony.geom.Vec3D;
 
 /**
  * Extremely bare bones Wavefront OBJ 3D format exporter. Purely handles the

@@ -27,13 +27,13 @@
 
 package com.example.colorharmony.geom.mesh;
 
-import java.util.Collection;
-
 import com.example.colorharmony.geom.AABB;
 import com.example.colorharmony.geom.ReadonlyVec3D;
 import com.example.colorharmony.geom.Sphere;
 import com.example.colorharmony.geom.Vec2D;
 import com.example.colorharmony.geom.Vec3D;
+
+import java.util.Collection;
 
 /**
  * Common interface for 3D (triangle) mesh containers.

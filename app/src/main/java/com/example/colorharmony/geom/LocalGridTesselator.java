@@ -1,9 +1,9 @@
 package com.example.colorharmony.geom;
 
+import com.example.colorharmony.math.ScaleMap;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.colorharmony.math.ScaleMap;
 
 /**
  * A concrete implementation of the abstract {@link GridTesselator} using a grid

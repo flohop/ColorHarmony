@@ -26,6 +26,10 @@
 
 package com.example.colorharmony.color;
 
+import com.example.colorharmony.math.MathUtils;
+import com.example.colorharmony.theory.ColorTheoryRegistry;
+import com.example.colorharmony.theory.ColorTheoryStrategy;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,10 +39,6 @@ import java.util.List;
 
 /*import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;*/
-
-import com.example.colorharmony.math.MathUtils;
-import com.example.colorharmony.theory.ColorTheoryRegistry;
-import com.example.colorharmony.theory.ColorTheoryStrategy;
 
 
 /**

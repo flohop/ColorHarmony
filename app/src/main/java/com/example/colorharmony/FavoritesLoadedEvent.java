@@ -2,9 +2,6 @@ package com.example.colorharmony;
 
 import android.database.Cursor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FavoritesLoadedEvent {
 
     Cursor colorCursor;

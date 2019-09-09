@@ -1,11 +1,11 @@
 package com.example.colorharmony.geom;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.colorharmony.geom.mesh2d.DelaunayTriangulation;
 import com.example.colorharmony.geom.mesh2d.Voronoi;
 import com.example.colorharmony.math.MathUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is an implementation of the {@link PolygonTesselator} interface and

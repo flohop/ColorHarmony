@@ -27,12 +27,12 @@
 
 package com.example.colorharmony.geom.mesh;
 
+import com.example.colorharmony.geom.Vec3D;
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.example.colorharmony.geom.Vec3D;
-import com.example.colorharmony.math.MathUtils;
 
 /**
  * Abstract parent class for selecting mesh vertices and manipulating resulting

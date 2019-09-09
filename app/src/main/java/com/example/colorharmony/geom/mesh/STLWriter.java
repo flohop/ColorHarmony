@@ -27,6 +27,8 @@
 
 package com.example.colorharmony.geom.mesh;
 
+import com.example.colorharmony.geom.Vec3D;
+
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -34,8 +36,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Logger;
-
-import com.example.colorharmony.geom.Vec3D;
 
 /**
  * A simple, but flexible and memory efficient exporter for binary STL files.

@@ -27,15 +27,13 @@
 
 package com.example.colorharmony.geom.mesh;
 
+import com.example.colorharmony.geom.ReadonlyVec3D;
+import com.example.colorharmony.geom.Vec3D;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.example.colorharmony.geom.ReadonlyVec3D;
-
-import com.example.colorharmony.geom.Vec3D;
-import com.example.colorharmony.geom.mesh.WEVertex;
 
 public class WEVertex extends Vertex {
 

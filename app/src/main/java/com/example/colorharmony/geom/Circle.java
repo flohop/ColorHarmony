@@ -27,9 +27,9 @@
 
 package com.example.colorharmony.geom;
 
-import java.util.List;
-
 import com.example.colorharmony.math.MathUtils;
+
+import java.util.List;
 
 /**
  * This class overrides {@link Ellipse} to define a 2D circle and provides

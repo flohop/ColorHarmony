@@ -27,12 +27,12 @@
 
 package com.example.colorharmony.geom.mesh.subdiv;
 
-import java.util.Comparator;
-import java.util.List;
-
 import com.example.colorharmony.geom.Vec3D;
 import com.example.colorharmony.geom.mesh.WETriangleMesh;
 import com.example.colorharmony.geom.mesh.WingedEdge;
+
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * This is the abstract parent class for all subdivision strategies. Each of its

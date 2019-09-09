@@ -1,10 +1,10 @@
 package com.example.colorharmony.geom;
 
+import com.example.colorharmony.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import com.example.colorharmony.math.MathUtils;
 
 public class SpatialBins<T> implements SpatialIndex<T> {
 

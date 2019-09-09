@@ -27,11 +27,11 @@
 
 package com.example.colorharmony.geom.mesh;
 
+import com.example.colorharmony.geom.Vec3D;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
-import com.example.colorharmony.geom.Vec3D;
 
 /**
  * Applies a laplacian smooth function to all vertices in the mesh
