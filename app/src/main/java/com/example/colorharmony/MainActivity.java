@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         String tutorialKey ="tut_key";
         Boolean firstTime = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(tutorialKey, true);
         if(firstTime) {
-            Toast.makeText(myContext, "First time user", Toast.LENGTH_SHORT).show();
             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(tutorialKey, false).apply();
             startActivity(new Intent(this, IntroActivity.class));
         }

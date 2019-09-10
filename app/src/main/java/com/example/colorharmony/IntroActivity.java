@@ -80,7 +80,7 @@ public class IntroActivity extends AppIntro {
         sliderPage5.setTitle("6. Visit your favorites");
         sliderPage5.setDescription("By clicking on the star icon on the task bar, you can take a look at " +
                 "all your saved color palettes, click on one item of the list, to further inspect it and the" +
-                " ability to share it with your friends via WhatsApp." +
+                " ability to share it with your friends via WhatsApp or other social media." +
                 " By swiping either left or right, you delete the item from your collection.");
         sliderPage5.setImageDrawable(R.drawable.fav_colors_tour);
         sliderPage5.setBgColor(R.color.Chocolate);
