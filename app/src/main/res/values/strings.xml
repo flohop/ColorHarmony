@@ -69,4 +69,7 @@
     <!-- Ad ids !-->
     <string name="banner_ad_id">ca-app-pub-6804378884831161/6683730214</string>
     <string name="interstitial_add_id">ca-app-pub-6804378884831161/4654309159</string>
+
+    <!-- Donations !-->
+    <string name="donation_paypal_item">PayPal item in strings</string>
 </resources>

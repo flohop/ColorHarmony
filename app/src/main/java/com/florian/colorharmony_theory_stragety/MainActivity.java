@@ -1,9 +1,6 @@
 package com.florian.colorharmony_theory_stragety;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,15 +14,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ListView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,22 +34,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.wallet.PaymentsClient;
-import com.google.android.gms.wallet.Wallet;
-import com.google.android.gms.wallet.WalletConstants;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
-import es.dmoral.toasty.Toasty;
+import java.util.List;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
@@ -87,11 +72,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private int donation_amount;
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    //PayPal infos
-    String clientId = "AWng5h1WCGyhoOhURGgE23jsAvyb-La7jgnhkjIbEcuTxaseTXA8mJZyV-ZBqsFl-duirfVUmULQubua";
-    String clientSecret = "EFXHmh-OxOsBveyKtTtZ8gCQEh6fFMiIdlwW02-DdWQbI5Yuw6fum-R_E3i_VInlNPTn9gAC0e42UIQC";
-    PayPalConfiguration configuration;
+    // PayPal user
+    private static final String PAYPAL_USER = "edyta.hoppe@gmail.com";
+    private static final String PAYPAL_CURRENCY_CODE = "EUR";
 
+    //Google
+    private static final String GOOGLE_PUBKEY = "441020815658-394s447pmfj4l2t0qj7ilsos0kuq5rpo.apps.googleusercontent.com";
+    private static final String[] GOOGLE_CATALOG = new String[]{"ntpsync.donation.1",
+            "ntpsync.donation.2", "ntpsync.donation.5", "ntpsync.donation.10"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,20 +118,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
 
         //configure google pay
-        Wallet.WalletOptions walletOptions =
-                new Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_PRODUCTION)
-                        .build();
-        paymentsClient = Wallet.getPaymentsClient(this, walletOptions);
-        
-        //setup paypal
-        configuration = new PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
-                .clientId(clientId);
-
-        Intent intent = new Intent();
-        intent.setClass(myContext, PaymentActivity.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
-        startService(intent);
-
 
         //find elements
         cameraImageButton = (ImageButton) findViewById(R.id.cameraImageButton);
@@ -269,32 +243,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             startActivity(startPickerIntent);
 
         }
-        
-        else if(result_code == Activity.RESULT_OK && request_code==667){
-            PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-            Toasty.normal(this, "Big Thanks!", getResources().getDrawable(R.drawable.heart_icon, null)).show();
-            GMailSender sender = new GMailSender("armorgames555@googlemail.com", "armorgames555");
-            try {
-                sender.sendMail("Got a donation", "You received a donation from your app Color Harmony for " + donation_amount + "€",
-                        "armorgames555@googlemail.com", "hoppe.florian02@gmail.com");
-                Toast.makeText(myContext, "Send mail", Toast.LENGTH_LONG).show();
-            }
 
-            catch (Exception e){
-            }
-            if(confirmation != null){
 
-            }
-        }
-        else if(result_code == Activity.RESULT_CANCELED && request_code == 667){
-            Toast.makeText(myContext, "Donation canceled", Toast.LENGTH_SHORT).show();
-        }
-        else if(result_code == PaymentActivity.RESULT_EXTRAS_INVALID && request_code == 667) {
-            Toast.makeText(myContext, "Something invalid happened", Toast.LENGTH_SHORT).show();
-        }
 
-        if(result_code == RESULT_OK) {
-        }
+    // removed for as long as i cant figure out how to integrate google pay
+      /*  else if(result_code == RESULT_OK) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentByTag("donationsFragment");
+            if(fragment != null){
+                fragment.onActivityResult(request_code, result_code, data);
+            }
+        }*/
     }
 
         @Override
@@ -322,9 +281,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 startActivity(new Intent(this, EditPreferences.class));
                 return (true);
 
-            case R.id.support_me:
+            //removed for as long as i cant figure out how to integrate google pay
+           /* case R.id.support_me:
                 showSupportDialog();
-                return (true);
+                return (true);*/
         }
 
         return (super.onOptionsItemSelected(item));
@@ -396,11 +356,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onDestroy() {
-        stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
     }
 
-    private void showSupportDialog(){
+    //support me removed for as long as i cant figure out how to get it to work with google pay
+    /*private void showSupportDialog(){
 
         ImageButton back_arrow;
         
@@ -427,17 +387,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //set paypal payment details
-                PayPalPayment payment = new PayPalPayment(new BigDecimal(objects.get(position).getPrice()),
-                        "EUR", "Donate " + objects.get(position).getName() + " to Florian", PayPalPayment.PAYMENT_INTENT_SALE);
-                
-                Intent intent = new Intent(myContext, PaymentActivity.class);
-                
-                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-                donation_amount = (int) objects.get(position).getPrice();
-                startActivityForResult(intent,667);
-                
+                //set donation details
+
+
             }
         });
 
@@ -452,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         supportDialog.setView(saveView);
         new Dialog(getApplicationContext());
         supportDialog.show();
-    }
+    }*/
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

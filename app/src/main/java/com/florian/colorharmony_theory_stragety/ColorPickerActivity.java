@@ -144,7 +144,7 @@ public class ColorPickerActivity  extends Activity {
 
         MobileAds.initialize(this, "ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712"); //test ad code
+        mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial_add_id)); //test ad code
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
 

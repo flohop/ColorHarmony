@@ -13,12 +13,12 @@
 
     </item>
 
-    <item
+   <!-- <item
         android:id="@+id/support_me"
         android:icon="@drawable/ic_cake_white_24dp"
         android:title="@string/favorites"
         android:contentDescription="@string/favorites_description"
-        app:showAsAction="always"/>
+        app:showAsAction="always"/>-->
 
     <item
         android:id="@+id/action_more"

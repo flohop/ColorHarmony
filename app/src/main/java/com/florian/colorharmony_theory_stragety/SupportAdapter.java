@@ -71,7 +71,6 @@ public class SupportAdapter extends ArrayAdapter<SupportMeObject> implements Vie
     catch (NullPointerException e){
 
     }
-
         return  convertView;
     }
 }

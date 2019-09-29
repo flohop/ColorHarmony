@@ -16,4 +16,11 @@
         <item>CMYK</item>
     </string-array>
 
+    <string-array name="donation_google_catalog_values">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
 </resources>
