@@ -126,7 +126,7 @@ public class FavoriteColorsFragment extends Fragment {
             @Override
             public void onLongClick(View view, int position) {
                 try {
-                    Toast.makeText(getContext(), "Clicked long on: " + loadedFavColors.get(position).getTitle(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), loadedFavColors.get(position).getTitle(), Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                 }
             }
@@ -501,7 +501,8 @@ public class FavoriteColorsFragment extends Fragment {
                 banner.setVisibility(View.VISIBLE);
                 banner_icon.setVisibility(View.VISIBLE);
 
-                sendBitmapToWhatsApp("Created with Color Harmony", getBitmapFromView(favoriteView));
+                sendBitmapToWhatsApp(getResources().getString(R.string.created_with_color_harmony) +
+                        "https://play.google.com/store/apps/details?id=com.florian.colorharmony_theory_strategy", getBitmapFromView(favoriteView));
                 shareButton2.setVisibility(View.VISIBLE);
                 banner.setVisibility(View.INVISIBLE);
                 banner_icon.setVisibility(View.INVISIBLE);
@@ -513,7 +514,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex1()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -524,7 +525,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex2()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -615,7 +616,8 @@ public class FavoriteColorsFragment extends Fragment {
                 banner.setVisibility(View.VISIBLE);
                 banner_icon.setVisibility(View.VISIBLE);
 
-                sendBitmapToWhatsApp("Created with Color Harmony", getBitmapFromView(favoriteView));
+                sendBitmapToWhatsApp(getResources().getString(R.string.created_with_color_harmony) +
+                        " https://play.google.com/store/apps/details?id=com.florian.colorharmony_theory_strategy", getBitmapFromView(favoriteView));
                 shareButton3.setVisibility(View.VISIBLE);
                 banner.setVisibility(View.INVISIBLE);
                 banner_icon.setVisibility(View.INVISIBLE);
@@ -627,7 +629,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex1()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -638,7 +640,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex2()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -649,7 +651,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex2()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -745,7 +747,8 @@ public class FavoriteColorsFragment extends Fragment {
                 banner.setVisibility(View.VISIBLE);
                 banner_icon.setVisibility(View.VISIBLE);
 
-                sendBitmapToWhatsApp("Created with Color Harmony", getBitmapFromView(favoriteView));
+                sendBitmapToWhatsApp("Created with Color Harmony:" +
+                        " https://play.google.com/store/apps/details?id=com.florian.colorharmony_theory_strategy", getBitmapFromView(favoriteView));
                 shareButton4.setVisibility(View.VISIBLE);
                 banner.setVisibility(View.INVISIBLE);
                 banner_icon.setVisibility(View.INVISIBLE);
@@ -757,7 +760,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex1()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -768,7 +771,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex2()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -779,7 +782,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex2()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -789,7 +792,7 @@ public class FavoriteColorsFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 ClipData colorData = ClipData.newPlainText("Color value", getCorrectColorFormat(theColor.getHex2()));
                 clipboardManager.setPrimaryClip(colorData);
-                Toast.makeText(getActivity(), "Saved to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -896,10 +899,10 @@ public class FavoriteColorsFragment extends Fragment {
                 sendIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, pack);
                 sendIntent.setType("image/*");
-                startActivity(Intent.createChooser(sendIntent, "Select app"));
+                startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.select_app)));
             }
         } catch (Exception e) {
-            Toast.makeText(getActivity(), "App not Installed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.app_not_installed), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -914,7 +917,7 @@ public class FavoriteColorsFragment extends Fragment {
 
             }
                 else{
-                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                 }
                 return;
         }

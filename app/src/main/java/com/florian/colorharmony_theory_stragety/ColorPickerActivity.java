@@ -18,6 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -267,7 +269,7 @@ public class ColorPickerActivity  extends Activity {
 
         }
         catch(NullPointerException e){
-            Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.please_select_image), Toast.LENGTH_SHORT).show();
             Intent returnIntent = new Intent(this, MainActivity.class);
             startActivity(returnIntent);
         }
@@ -288,7 +290,7 @@ public class ColorPickerActivity  extends Activity {
 
                     ClipData colorData = ClipData.newPlainText("Color value", colorTextView1.getText().toString());
                     clipboardManager.setPrimaryClip(colorData);
-                    Toast.makeText(ColorPickerActivity.this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ColorPickerActivity.this, getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -300,7 +302,7 @@ public class ColorPickerActivity  extends Activity {
                 if(colorView.getVisibility() == View.VISIBLE) {
                     ClipData colorData = ClipData.newPlainText("Color value", colorTextView2.getText().toString());
                     clipboardManager.setPrimaryClip(colorData);
-                    Toast.makeText(ColorPickerActivity.this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ColorPickerActivity.this, getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -312,7 +314,7 @@ public class ColorPickerActivity  extends Activity {
                 if(colorView.getVisibility() == View.VISIBLE) {
                     ClipData colorData = ClipData.newPlainText("Color value", colorTextView3.getText().toString());
                     clipboardManager.setPrimaryClip(colorData);
-                    Toast.makeText(ColorPickerActivity.this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ColorPickerActivity.this, getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -324,7 +326,7 @@ public class ColorPickerActivity  extends Activity {
                 if(colorView.getVisibility() == View.VISIBLE) {
                     ClipData colorData = ClipData.newPlainText("Color value", colorTextView4.getText().toString());
                     clipboardManager.setPrimaryClip(colorData);
-                    Toast.makeText(ColorPickerActivity.this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ColorPickerActivity.this, getResources().getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -470,22 +472,22 @@ public class ColorPickerActivity  extends Activity {
 
     private void initList() {
         mTacticList = new ArrayList<>();
-        mTacticList.add(0,new TacticItem("Complementary", R.drawable.ic_complementary_harmony, getResources().getString(R.string.complementary_info), R.drawable.complementary_show));
+        mTacticList.add(0,new TacticItem(getResources().getString(R.string.spinner_item_complementary), R.drawable.ic_complementary_harmony, getResources().getString(R.string.complementary_info), R.drawable.complementary_show));
         mTacticList.get(0).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(1,new TacticItem("Monochromatic", R.drawable.ic_monochromatic_harmony, getResources().getString(R.string.monochrome_info), R.drawable.monochromatic_show));
+        mTacticList.add(1,new TacticItem(getResources().getString(R.string.spinner_item_monochromatic), R.drawable.ic_monochromatic_harmony, getResources().getString(R.string.monochrome_info), R.drawable.monochromatic_show));
         mTacticList.get(1).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(2,new TacticItem("Analogous", R.drawable.ic_analogous_harmony, getResources().getString(R.string.analogous_info), R.drawable.analogous_show));
+        mTacticList.add(2,new TacticItem(getResources().getString(R.string.spinner_item_analogous), R.drawable.ic_analogous_harmony, getResources().getString(R.string.analogous_info), R.drawable.analogous_show));
         mTacticList.get(2).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(3,new TacticItem("Split Complementary", R.drawable.ic_split_complementary_harmony, getResources().getString(R.string.split_complementary_info), R.drawable.split_complementary_show));
+        mTacticList.add(3,new TacticItem(getResources().getString(R.string.spinner_item_split_complementary), R.drawable.ic_split_complementary_harmony, getResources().getString(R.string.split_complementary_info), R.drawable.split_complementary_show));
         mTacticList.get(3).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(4,new TacticItem("Triadic", R.drawable.ic_triadic_harmony, getResources().getString(R.string.triadic_info), R.drawable.triadic_show));
+        mTacticList.add(4,new TacticItem(getResources().getString(R.string.spinner_item_triadic), R.drawable.ic_triadic_harmony, getResources().getString(R.string.triadic_info), R.drawable.triadic_show));
         mTacticList.get(4).setAlertImageCode(R.raw.basic_color_wheel);
 
-        mTacticList.add(5,new TacticItem("Tetradic", R.drawable.ic_tetradic_harmony, getResources().getString(R.string.tetradic_info), R.drawable.tetradic_show));
+        mTacticList.add(5,new TacticItem(getResources().getString(R.string.spinner_item_tetradic), R.drawable.ic_tetradic_harmony, getResources().getString(R.string.tetradic_info), R.drawable.tetradic_show));
         mTacticList.get(5).setAlertImageCode(R.raw.basic_color_wheel);
     }
 
@@ -496,8 +498,9 @@ public class ColorPickerActivity  extends Activity {
 
         // get the harmony colors based on the selected System
 
-        if (currentTactic == "Complementary") {
+        if (currentTactic.equals("Complementary") || (currentTactic.equals("Komplementär"))){
             hexArray = CalculateHarmonyCalculator.calculateComplementary(myTColor);
+            Log.d(LOG_TAG, "setHarmonicColors: assigned hexArray to calculator value");
 
             if(colorView2.getVisibility() == View.VISIBLE) {
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
@@ -513,7 +516,7 @@ public class ColorPickerActivity  extends Activity {
 
 
 
-        else if (currentTactic == "Monochromatic"){
+        else if (currentTactic.equals("Monochromatic") || (currentTactic.equals("Monochromatisch"))){
             hexArray = CalculateHarmonyCalculator.calculateMonochromeStrategy(myTColor);
             if(colorView2.getVisibility() == View.VISIBLE) {
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
@@ -541,7 +544,7 @@ public class ColorPickerActivity  extends Activity {
             }
 
         }
-        else if (currentTactic == "Analogous"){
+        else if (currentTactic.equals("Analogous") || currentTactic.equals("Analog")){
             hexArray = CalculateHarmonyCalculator.calculateAnalogous(myTColor);
             if(colorView2.getVisibility() == View.VISIBLE) {
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
@@ -561,7 +564,7 @@ public class ColorPickerActivity  extends Activity {
 
 
         }
-        else if (currentTactic == "Split Complementary"){
+        else if (currentTactic.equals("Split Complementary") || currentTactic.equals("Split Komplementär")){
             hexArray = CalculateHarmonyCalculator.calculateSplitComplementaryStrategy(myTColor);
             if(colorView2.getVisibility() == View.VISIBLE) {
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
@@ -588,7 +591,7 @@ public class ColorPickerActivity  extends Activity {
 
         }
 
-        else if (currentTactic == "Triadic"){
+        else if (currentTactic.equals("Triadic") || currentTactic.equals("Triadisch")){
             hexArray = CalculateHarmonyCalculator.calculateTriadStrategy(myTColor);
             if(colorView2.getVisibility() == View.VISIBLE) {
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
@@ -612,7 +615,7 @@ public class ColorPickerActivity  extends Activity {
             colorTextView4.setVisibility(View.INVISIBLE);
 
         }
-        else if (currentTactic == "Tetradic"){
+        else if (currentTactic.equals("Tetradic") || currentTactic.equals("Tetraedisch")){
             hexArray = CalculateHarmonyCalculator.calculateTetraTheory(myTColor);
             if(colorView2.getVisibility() == View.VISIBLE) {
                 colorView2.setBackgroundColor(Color.parseColor("#" + hexArray.get(0)));
@@ -657,13 +660,17 @@ public class ColorPickerActivity  extends Activity {
              if(hexArray != null){
                  switch (currentTactic){
                      case "Complementary":
+                     case "Komplementär":
                          colorTextView1.setText(getCorrectColorFormat(currentHexColor));
                          colorTextView2.setText(getCorrectColorFormat(hexArray.get(0)));
                          break;
 
                      case "Split Complementary":
+                     case "Split Komplementär":
                      case "Triadic":
+                     case "Triadisch":
                      case "Analogous":
+                     case "Analog":
                          colorTextView3.setVisibility(View.VISIBLE);
                          colorTextView1.setText(getCorrectColorFormat(currentHexColor));
                          colorTextView2.setText(getCorrectColorFormat(hexArray.get(0)));
@@ -671,7 +678,9 @@ public class ColorPickerActivity  extends Activity {
                          break;
 
                      case "Monochromatic":
+                     case "Monochromatisch":
                      case "Tetradic":
+                     case "Tetraedisch":
                          colorTextView3.setVisibility(View.VISIBLE);
                          colorTextView1.setText(getCorrectColorFormat(currentHexColor));
                          colorTextView2.setText(getCorrectColorFormat(hexArray.get(0)));
@@ -720,7 +729,7 @@ public class ColorPickerActivity  extends Activity {
         new Dialog(getApplicationContext());
 
         //set button
-        saveAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", new DialogInterface.OnClickListener(){
+        saveAlertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.save_fav_dialog_save), new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //performed when action is positive
@@ -771,14 +780,14 @@ public class ColorPickerActivity  extends Activity {
                         break;
                 }
 
-                Toast.makeText(ColorPickerActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(ColorPickerActivity.this, getResources().getString(R.string.save_fav_dialog_saved), Toast.LENGTH_LONG).show();
             }
         });
 
-        saveAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener(){
+        saveAlertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.save_fav_dialog_cancel), new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(ColorPickerActivity.this, "Canceled", Toast.LENGTH_LONG).show();
+                Toast.makeText(ColorPickerActivity.this, getResources().getString(R.string.save_fav_dialog_canceled), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -803,6 +812,9 @@ public class ColorPickerActivity  extends Activity {
         alertHeader.setText(currentTacticItem.getTacticName());
         alertImage.setImageResource(currentTacticItem.getShowImageResource());
         alertContent.setText(currentTacticItem.getInfoText());
+
+        //make text scrollable
+        alertContent.setMovementMethod(new ScrollingMovementMethod());
 
         alertDialog.setView(alertView);
 

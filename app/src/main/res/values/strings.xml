@@ -20,6 +20,28 @@
     <string name="save_palette_enter_name">Enter name</string>
     <string name="save_palette_enter_description">Enter description</string>
 
+    <!-- Color Tactic Spinner Item names !-->
+    <string name="spinner_item_complementary">Complementary</string>
+    <string name="spinner_item_monochromatic">Monochromatic</string>
+    <string name="spinner_item_analogous">Analogous</string>
+    <string name="spinner_item_split_complementary">Split Complementary</string>
+    <string name="spinner_item_triadic">Triadic</string>
+    <string name="spinner_item_tetradic">Tetradic</string>
+
+    <!-- Save Favorite Colors Dialog Texts !-->
+    <string name="save_fav_dialog_save">Save</string>
+    <string name="save_fav_dialog_saved">Saved</string>
+    <string name="save_fav_dialog_cancel">Cancel</string>
+    <string name="save_fav_dialog_canceled">Canceled</string>
+
+    <!-- Small text pieces !-->
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="please_select_image">Please select an image</string>
+    <string name="app_not_installed">App not installed</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="select_app">Select app</string>
+    <string name="created_with_color_harmony">Created with Color Harmony: </string>
+
     <!-- Different tactics explanation !-->
     <string name="complementary_info">Complementary colors are two colors opposite to each other on
         the color wheel. These create a high contrast, so it\'s a good idea to use it, to make
@@ -50,6 +72,9 @@
     <string name="choose_color_text_type">Pick color text type</string>
     <string name="choose_color_text_type_summary">Pick the format you want the color text displayed in</string>
     <string name="choose_color_text_type_title">Pick color format</string>
+    <string name="select_app_language">Change the language</string>
+    <string name="select_language_title">Select a language</string>
+    <string name="select_language_summary">Choose the language for the app</string>
     <string name="switch_theme">Switch your theme</string>
     <string name="switch_theme_key">theme_switch</string>
     <string name="switch_dark_theme">Switch to dark theme</string>
@@ -72,4 +97,39 @@
 
     <!-- Donations !-->
     <string name="donation_paypal_item">PayPal item in strings</string>
+
+    <!-- Intro Text !-->
+    <string name="intro_text_p1_title">Welcome to Color Harmony</string>
+    <string name="intro_text_p1_description">Create stunning color palettes and explore the compositions of your favorite images</string>
+    <string name="intro_text_p2_title">1. Create or choose an image</string>
+    <string name="intro_text_p2_description">First, in order to get a color from an image, we first need the image!
+                You can either select one from your gallery, or take a new one with your camera.</string>
+    <string name="intro_text_p3_title">2. Click on your image</string>
+    <string name="intro_text_p3_description">Clicking on the image sets the base color from which the harmony will be
+                calculated. Pro tip: By clicking on one of the above colors, you can save the color code to your clipboard.
+                By clicking the top back button you get back to the main page</string>
+    <string name="intro_text_p311_title">3. Change up the tactic</string>
+    <string name="intro_text_p311_description">By clicking on the List, you can select another tactic, which will
+                be applied immediately, to your chosen color. Here you can experiment, to find out, what tactic
+                best suits your interests</string>
+    <string name="intro_text_p31_title">4. Learn the theory</string>
+    <string name="intro_text_p31_description">By clicking in the i-Icon, you get to learn, what the current tactic
+                is used for, and how to use it</string>
+    <string name="intro_text_p4_title">5. Save your favorite colors</string>
+    <string name="intro_text_p4_description">Got a color scheme that fits you? Perfect! Now click on the save icon,
+                enter a name, and a description to save your colors for later</string>
+    <string name="intro_text_p5_title">6. Visit your favorites</string>
+    <string name="intro_text_p5_description">By clicking on the star icon on the task bar, you can take a look at
+                all your saved color palettes, click on one item of the list, to further inspect it and the
+                ability to share it with your friends via WhatsApp or other social media.
+                By swiping either left or right, you delete the item from your collection.</string>
+    <string name="intro_text_p6_title">7. Change settings</string>
+    <string name="intro_text_p6_description">By clicking on the gear wheel on the task bar, you can change the settings.
+                Here you can choose if you want the color formats shown and in what format you want them. Additionally,
+                for all your nigh owls out there, you can switch on the night theme.</string>
+    <string name="intro_text_p7_title">Explore, create and have fun!</string>
+    <string name="intro_text_p7_description">Congratulations, you\'ve finished this quick overview and are now ready to dive
+                in deep into the world of colors!</string>
+    <string name="intro_finish_text">Have fun!</string>
+
 </resources>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="app_name">Color Harmony</string>
+        <string name="gallery_button_description">Öffne die Gallerie</string>
+        <string name="camera_button_description">Mache ein Foto</string>
+        <string name="share">Teilen</string>
+        <string name="share_description">Teile die App mit deinem Freunden</string>
+        <string name="settings">Einstellungen</string>
+        <string name="settings_description">Ändere die Einstellungen in der App</string>
+        <string name="support">Üntestütze mich</string>
+        <string name="favorites">Speichere die Palette</string>
+        <string name="favorites_description">Betrachte deine gespeicherten Farben</string>
+        <string name="support_description">Kaufe dem Entwickler einen Kaffee</string>
+        <string name="rotate">Drehe das Bild</string>
+        <string name="rotate_description">Drehe das Bild im 180 Grad</string>
+        <string name="confirm_orientation">Bestätigen</string>
+        <string name="confirm_orientation_description">Bestätige die Ausrichtung des Bildes</string>
+        <string name="pick_color">Wähle eine Farbe aus dem Bild</string>
+        <string name="info_button">Erfahre den Effekt der Taktik und wie man sie benutzt</string>
+        <string name="confirm_color">Bestätige die Farbe uns betrachte eine Vorschaz</string>
+        <string name="save_palette_enter_name">Name eigeben</string>
+        <string name="save_palette_enter_description">Beschreibung eingeben</string>
+
+        <!-- Color Tactic Spinner Item names !-->
+        <string name="spinner_item_complementary">Komplementär</string>
+        <string name="spinner_item_monochromatic">Monochromatisch</string>
+        <string name="spinner_item_analogous">Analog</string>
+        <string name="spinner_item_split_complementary">Split Komplementär</string>
+        <string name="spinner_item_triadic">Triadisch</string>
+        <string name="spinner_item_tetradic">Tetraedisch</string>
+
+        <!-- Save Favorite Colors Dialog Texts !-->
+        <string name="save_fav_dialog_save">Speichern</string>
+        <string name="save_fav_dialog_saved">Gespeichert</string>
+        <string name="save_fav_dialog_cancel">Abbrechen</string>
+        <string name="save_fav_dialog_canceled">Abgebrochen</string>
+
+        <string name="copied_to_clipboard">In Zwischenablage gespeichert</string>
+        <string name="please_select_image">Bitte wähle ein Bild aus</string>
+        <string name="app_not_installed">App nicht installiert</string>
+        <string name="permission_denied">Erlaubnis verweigert</string>
+        <string name="select_app">Wähle App</string>
+        <string name="created_with_color_harmony">Erstellt mit Color Harmony: </string>
+
+
+    <!-- Different tactics explanation !-->
+        <string name="complementary_info">Komplementäre Farben, sind zwei Farben, die sich auf dem
+            Farbkreis, gegenüberstehen. Durch sie wird ein starker Kontrast hergestellt, also ist
+            es eine gute Idee diese Farben zu benutzen, um etwas herausstechen zu lassen.
+            Man könnte zum Beispiel eine Farbe im Hintergrund dominieren lassen, währen die andere
+            genutzt wird, um im Vordergrund des Bildes ein paar Akzente zu setzten. Zusammen
+            verwendet, scheinen diese Farben heller und präsenter.</string>
+        <string name="monochrome_info">Monochromatische Farne, sie Farben mit derselben Grundfarbe,
+            die sich jedoch in Ton und Sättigung unterscheiden. Durch sie, entsteht eine subtile
+            und minimalistisch aussehende Kombination. Monochromatische Farben sind leicht bei
+            Designs anzuwenden und projektzieren dabei ein harmonisches Aussehen.</string>
+        <string name="analogous_info">Analoge Farben, sind drei Farben, die Seite an Seite im
+            Farbkreis stehen. Diese Kombination kann, auch wenn sie sehr vielseitig ist,
+            überwältigend aussehen, wenn sie falsch angewendet wird. Um dies zu vermeiden,
+            ist es eine gute Idee, eine der drei Farben als dominante Farbe zu wählen und die
+            anderen beiden, um Akzente zu setzten.</string>
+        <string name="split_complementary_info">Getrennt komplementäre Farben, sind Farben, wo eine
+            Farbe zu zwei Farben, eins versetzt von der komplementären Farbe, zugewiesen wird.
+            Diese Taktik ist gut für Beginner, da es schwere ist, sie falsch einzusetzen, als
+            richtig. Die Grundfarbe sollte die dominierende Farbe sein, und die anderen beiden die
+            Unterstützenden, für Highlights und Akzente.</string>
+        <string name="triadic_info">Triadische Farben, sind drei Farben, die gleich weit voneinander,
+            auf dem Farbkreis, entfernt sind. Sie ergeben einen starken Kontrast, jedoch mit einem
+            ausbalancierteren Aussehen, als die komplementären Farben. Es ist eine gute Idee, eine
+            dominante Hauptfarbe zu wählen und diese von den anderen beiden Farben unterstützen zu
+            lassen.</string>
+        <string name="tetradic_info">Tetraedrische Farben, sind vier Farben, die gleichweit voneinander,
+            auf dem Farbkreis, entfernt sind. Du kannst diese Farben entweder als Set von doppelten
+            Komplementärfarben nutzen, oder eine dominante Farbe wählen und diese von den anderen
+            drei Farben unterstützen lassen. Diese Taktik ist die schwerste umzusetzen, aufgrund
+            der Schwierigkeit, die Farben auszubalancieren. </string>
+
+
+        <!-- Shared preferences Text !-->
+        <string name="show_color_text_value">Zeige den Wer der Farbe an</string>
+        <string name="show_color_text_value_summary">Bestätigen, um den Wert der Farbe zu sehen</string>
+        <string name="choose_color_text_type">Wähle den Texttypen der Farbe</string>
+        <string name="choose_color_text_type_summary">Wähle das Format, in dem du die Farben haben willst</string>
+        <string name="choose_color_text_type_title">Wähle Farbformat</string>
+        <string name="select_app_language">Change the language></string>
+        <string name="select_language_title">Wähle eine Sprache</string>
+    <string name="select_language_summary">Wähle die Sprache, für die App</string>
+        <string name="switch_theme">Wechsle dein Motiv</string>
+        <string name="switch_theme_key">theme_switch</string>
+        <string name="switch_dark_theme">Wechlse zum dunklen Motiv</string>
+        <string name="switch_light_theme">Wechsle zum hellen Motiv</string>
+        <string name="switch_description">Wechlse das Motiv der App</string>
+
+        <!-- Ad Strings !-->
+        <string name="admob_app_id">ca-app-pub-6804378884831161/4654309159</string>
+        <string name="admob_banner_id">ca-app-pub-6804378884831161/6683730214</string>
+
+        <!-- Support me !-->
+        <string name="support_header_text">Hi, Ich bin Florian. Vielen Dank dafür, dass du meine App
+            benutzt, es bedeutet mir wirklich viel und ermutigt mich, weiterzumachen. Diese Seite
+            ist für Spenden. Falls du mir eine Mahlzeit oder eine Tasse Kaffee als Dankeschön
+            kaufen willst, kannst du das hier tun. Das ist jedoch keine Pflicht und ich bin dir
+            bereits sehr dankbar, dass du Color Harmony verwendest,
+            egal ob du spendest oder nicht.\n<b>Vieln Dank an euch alle!</b></string>
+
+        <!-- Ad ids !-->
+        <string name="banner_ad_id">ca-app-pub-6804378884831161/6683730214</string>
+        <string name="interstitial_add_id">ca-app-pub-6804378884831161/4654309159</string>
+
+        <!-- Donations !-->
+        <string name="donation_paypal_item">PayPal item in strings</string>
+
+        <!-- Intro Text !-->
+        <string name="intro_text_p1_title">Herzlich willkommen zu Color Harmony</string>
+        <string name="intro_text_p1_description">Erstelle atemberaubende Farbkompositionen und erforsche die Farbmuster deiner lieblings Bilder</string>
+        <string name="intro_text_p2_title">1. Erstelle ein Bild oder wähle eins aus</string>
+        <string name="intro_text_p2_description">Zuerst, um eine Farbe aus dem Bild zu erhalten,
+            brauchen wir ein Bild! Wähle entweder ein existierendes aus deiner Galerie aus,
+            ohne schieße ein neues Bild mit der Kamera.</string>
+        <string name="intro_text_p3_title">2. Klicke auf dein Bild</string>
+        <string name="intro_text_p3_description">Indem man auf das Bild klickt, wird eine Grundfarbe
+            ausgewählt von der aus, die Harmonie berechnet wird. Pro Tipp: Indem man auf das
+            Farbviereck klickt, wird der Farbcode in die Zwischenablage gespeichert. Indem man
+            auf den obigen Pfeil klickt, kommt man zurück zur Startseite.</string>
+        <string name="intro_text_p311_title">3. Ändere die Taktik</string>
+        <string name="intro_text_p311_description">Indem man auf die Liste klickt, kann man eine
+            andere Taktik wählen, die dann sofort auf die Grundfarbe angewendet wird. Hier
+            kannst du experimentieren, um herauszufinden, welche Farbe am besten zu deinem
+            Anliegen passt.</string>
+        <string name="intro_text_p31_title">4. Erkunde die Theorie</string>
+        <string name="intro_text_p31_description">Indem du auf das i-Icon klickst kannst du
+            erfahren, wofür die momentane Taktik angewendet wird, und wie man sie anwendet.</string>
+        <string name="intro_text_p4_title">5. Speichere deine Lieblingsfarben</string>
+        <string name="intro_text_p4_description">Hast du eine Farbkomposition die dir gefällt?
+            Perfekt! Nun klicke auf das Speichern-Icon, gebe Name und Beschreibung ein
+            und speichere deine Farben, um sie später betrachten zu können.</string>
+        <string name="intro_text_p5_title">6. Betrachte deine Favoriten</string>
+        <string name="intro_text_p5_description">Indem du im Hauptmenu auf das Stern-Icon auf
+            der Taskbar drückst, kannst du deine gespeicherten Farbpaletten ansehen.
+            Klicke auf ein Element der Liste, um es genauer zu betrachten. Dort kannst
+            du das Muster auch mit deinen Freunden teilen. Indem du In der Liste links
+            oder rechts wischt, kannst du ein Element löschen.</string>
+        <string name="intro_text_p6_title">7. Einstellungen ändern</string>
+        <string name="intro_text_p6_description">Indem du im Hauptmenu auf das Zahnrad auf der
+            Taskbar drückst, kannst du die Einstellungen der App ändern. Hier kannst du entscheiden
+            ob du den Farbcode angezeigt haben möchtest, wenn ja in welchem Format und außerdem,
+            das wichtigste Feature,  kannst du hier die App auf den Nachtmodus wechseln.</string>
+        <string name="intro_text_p7_description">Glückwunsch, du hast diese kurze Tour abgeschlossen und bist jetzt bereit tief in die Welt der Farben einzutauchen!</string>
+        <string name="intro_finish_text">Viel Spaß!</string>
+
+</resources>

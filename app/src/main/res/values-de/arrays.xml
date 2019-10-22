@@ -24,12 +24,13 @@
     </string-array>
 
     <string-array name="languages">
-        <item>English</item>
-        <item>German</item>
+        <item>Englisch</item>
+        <item>Deutsch</item>
     </string-array>
 
     <string-array name="language_values">
         <item>en</item>
         <item>de</item>
     </string-array>
+
 </resources>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.List;
+import java.util.Locale;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
@@ -80,13 +83,32 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private static final String GOOGLE_PUBKEY = "441020815658-394s447pmfj4l2t0qj7ilsos0kuq5rpo.apps.googleusercontent.com";
     private static final String[] GOOGLE_CATALOG = new String[]{"ntpsync.donation.1",
             "ntpsync.donation.2", "ntpsync.donation.5", "ntpsync.donation.10"};
+    boolean was_changed = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean is_changed = getIntent().getBooleanExtra("changed_language", false);
         myContext = this;
+
+
+        /*if(is_changed == true && was_changed != true) {
+            was_changed = true;
+            Toast.makeText(myContext, "I changed the language", Toast.LENGTH_SHORT).show();
+
+            if (prefs.getString("language_select", "en") == "de") {
+                LocalHelper.setLocale(this, "de");
+            } else {
+                LocalHelper.setLocale(this, "en");
+
+            }
+            Log.d(LOG_TAG, "onCreate: recreating the activity");
+            recreate();
+        }*/
+        setContentView(R.layout.activity_main);
 
         //show tutorial of app was never opened
         String tutorialKey ="tut_key";
@@ -97,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(prefs.getBoolean("theme_switch", false) == true){
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             Window windows = this.getWindow();
@@ -111,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             windows.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             windows.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             windows.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-
-
         }
+
+
         getDelegate().applyDayNight();
 
 
@@ -269,7 +290,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             case R.id.share:
                 //let the user share the app
 
-                sendBitmapToWhatsApp("Check out this cool app", BitmapFactory.decodeResource(this.getResources(),R.drawable.color_wheel));
+                sendBitmapToWhatsApp("Check out Color Harmony for free: " +
+                        "https://play.google.com/store/apps/details?id=com.florian.colorharmony_theory_strategy", BitmapFactory.decodeResource(this.getResources(),R.drawable.color_wheel));
                 return (true);
 
             case R.id.favorite_colors:

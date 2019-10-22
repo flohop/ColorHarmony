@@ -8,14 +8,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
+
+import java.util.Locale;
+
+import javax.mail.Quota;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 public class EditPreferences extends Activity {
@@ -39,6 +49,8 @@ public class EditPreferences extends Activity {
         AppCompatDelegate mDelegate = null;
         public boolean onAttachSwitchState;
         public boolean onDetachSwitchState;
+        public String onAttachLanguage;
+        public String onDetachLanguage;
         MainActivity listener;
 
         @Override
@@ -69,6 +81,7 @@ public class EditPreferences extends Activity {
         public void onAttach(Context context) {
             super.onAttach(context);
             onAttachSwitchState = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("theme_switch", false);
+            onAttachLanguage = PreferenceManager.getDefaultSharedPreferences(context).getString("language_select", "en");
         }
 
         @Override
@@ -105,6 +118,8 @@ public class EditPreferences extends Activity {
                 case "theme_switch":
                     Toast.makeText(getActivity(), "SWITCH", Toast.LENGTH_SHORT).show();
                     is_dark = prefs.getBoolean("dark_switch", false);
+                case "language_select":
+                    Toast.makeText(listener, "Switched language", Toast.LENGTH_SHORT).show();
 
 
             }
